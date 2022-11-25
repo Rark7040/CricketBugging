@@ -4,7 +4,7 @@ type GopherTunnel struct {
 	running bool
 }
 
-func NewGopherTunnel() *GopherTunnel {
+func NewTunnel() *GopherTunnel {
 	return &GopherTunnel{
 		running: false,
 	}

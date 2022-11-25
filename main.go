@@ -1,7 +1,6 @@
 package main
 
 import (
-	"cricket-bugging/gophertunnel"
 	"embed"
 
 	"github.com/wailsapp/wails/v2"
@@ -14,7 +13,6 @@ var assets embed.FS
 
 func main() {
 	app := NewApp()
-	tunnel := gophertunnel.NewGopherTunnel()
 	err := wails.Run(&options.App{
 		Title:  "CricketBugging",
 		Width:  1024,
@@ -26,7 +24,6 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
-			tunnel,
 		},
 	})
 
