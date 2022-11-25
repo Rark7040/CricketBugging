@@ -13,6 +13,7 @@ var assets embed.FS
 
 func main() {
 	app := NewApp()
+	binds := NewBinds() //binds backend funcs to frontend.
 	err := wails.Run(&options.App{
 		Title:  "CricketBugging",
 		Width:  1024,
@@ -23,7 +24,7 @@ func main() {
 		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
 		OnStartup:        app.startup,
 		Bind: []interface{}{
-			app,
+			binds,
 		},
 	})
 
