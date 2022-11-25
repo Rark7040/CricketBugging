@@ -73,12 +73,7 @@ func RequestLiveToken(l *log.Logger) (*oauth2.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	l.Logging(
-		log.NewMsg(
-			fmt.Sprintf("Authenticate at %v using the code %v", d.VerificationURI, d.UserCode),
-			"",
-		),
-	)
+	l.Logging(log.NewMsgNoContent(fmt.Sprintf("Authenticate at %v using the code %v", d.VerificationURI, d.UserCode)))
 	ticker := time.NewTicker(time.Second * time.Duration(d.Interval))
 	defer ticker.Stop()
 
@@ -90,12 +85,7 @@ func RequestLiveToken(l *log.Logger) (*oauth2.Token, error) {
 		// If the token could not be obtained yet (authentication wasn't finished yet), the token is nil.
 		// We just retry if this is the case.
 		if t != nil {
-			l.Logging(
-				log.NewMsg(
-					fmt.Sprintf("Authentication successful"),
-					"",
-				),
-			)
+			l.Logging(log.NewMsgNoContent(fmt.Sprintf("Authentication successful")))
 			return t, nil
 		}
 	}

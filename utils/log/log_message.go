@@ -12,6 +12,13 @@ func NewMsg(title string, content string) Message {
 	}
 }
 
+func NewMsgNoContent(title string) Message {
+	return Message{
+		title:   title,
+		content: "",
+	}
+}
+
 func (m *Message) GetTitle() string {
 	return m.title
 }

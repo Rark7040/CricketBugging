@@ -5,8 +5,8 @@ type AddressInfo struct {
 	remoteIp string
 }
 
-func NewAddr(local string, remote string) *AddressInfo {
-	return &AddressInfo{
+func NewAddr(local string, remote string) AddressInfo {
+	return AddressInfo{
 		localIp:  local,
 		remoteIp: remote,
 	}
