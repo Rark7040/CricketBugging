@@ -1,4 +1,4 @@
-module changeme
+module cricket-bugging
 
 go 1.18
 

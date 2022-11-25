@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cricket-bugging/gophertunnel"
 	"embed"
 
 	"github.com/wailsapp/wails/v2"
@@ -12,10 +13,8 @@ import (
 var assets embed.FS
 
 func main() {
-	// Create an instance of the app structure
 	app := NewApp()
-
-	// Create application with options
+	tunnel := gophertunnel.NewGopherTunnel()
 	err := wails.Run(&options.App{
 		Title:  "CricketBugging",
 		Width:  1024,
@@ -27,6 +26,7 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
+			tunnel,
 		},
 	})
 
