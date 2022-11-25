@@ -5,8 +5,8 @@ type Message struct {
 	content string
 }
 
-func NewMsg(title string, content string) *Message {
-	return &Message{
+func NewMsg(title string, content string) Message {
+	return Message{
 		title:   title,
 		content: content,
 	}

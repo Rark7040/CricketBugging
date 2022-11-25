@@ -2,13 +2,19 @@ module cricket-bugging
 
 go 1.18
 
-require github.com/wailsapp/wails/v2 v2.2.0
+require (
+	github.com/sandertv/gophertunnel v1.25.2
+	github.com/wailsapp/wails/v2 v2.2.0
+	golang.org/x/oauth2 v0.2.0
+)
 
 require golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
 
 require (
 	github.com/bep/debounce v1.2.1 // indirect
+	github.com/go-gl/mathgl v1.0.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
@@ -27,7 +33,10 @@ require (
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
+	golang.org/x/image v0.0.0-20201208152932-35266b937fa6 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/protobuf v1.28.0 // indirect
 )
