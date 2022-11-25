@@ -52,6 +52,7 @@ func (t *GopherTunnel) RunGopherTunnel(local string, remote string) {
 	tkn := genToken(t.GetLogger())
 
 	p, err := minecraft.NewForeignStatusProvider(addr.GetRemoteIp())
+
 	if err != nil {
 		panic(err)
 	}
@@ -96,6 +97,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 	}
 	var g sync.WaitGroup
 	g.Add(2)
+
 	go func() {
 		if err := conn.StartGame(serverConn.GameData()); err != nil {
 			if !t.IsRunning() {
@@ -106,6 +108,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 		}
 		g.Done()
 	}()
+
 	go func() {
 		if err := serverConn.DoSpawn(); err != nil {
 			if !t.IsRunning() {
@@ -116,10 +119,10 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 		g.Done()
 	}()
 	g.Wait()
+
 	if !t.IsRunning() {
 		return
 	}
-
 	go func() {
 		defer listener.Disconnect(conn, "connection lost")
 		defer serverConn.Close()
