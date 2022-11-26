@@ -66,8 +66,12 @@ func (t *GopherTunnel) RunGopherTunnel(local string, remote string) {
 	t.logger.Logging(log.NewMsgNoContent("done!"))
 
 	go func() {
-		defer listener.Close()
-		defer t.logger.Logging(log.NewMsgNoContent("gophertunnel stopped"))
+		defer func() {
+			if err = listener.Close(); err != nil {
+				panic(err)
+			}
+			t.logger.Logging(log.NewMsgNoContent("gophertunnel stopped"))
+		}()
 		for {
 			if !t.Running() {
 				return
@@ -124,8 +128,14 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 		return
 	}
 	go func() {
-		defer listener.Disconnect(conn, "connection lost")
-		defer serverConn.Close()
+		defer func() {
+			if err := listener.Disconnect(conn, "connection lost"); err != nil {
+				panic(err)
+			}
+			if err := serverConn.Close(); err != nil {
+				panic(err)
+			}
+		}()
 		for {
 			if !t.Running() {
 				return
@@ -146,9 +156,15 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 	}()
 
 	go func() {
-		defer serverConn.Close()
-		defer listener.Disconnect(conn, "connection lost")
-		defer t.logger.Logging(log.NewMsgNoContent("disconnected"))
+		defer func() {
+			if err := serverConn.Close(); err != nil {
+				panic(err)
+			}
+			if err := listener.Disconnect(conn, "connection lost"); err != nil {
+				panic(err)
+			}
+			t.logger.Logging(log.NewMsgNoContent("disconnected"))
+		}()
 		for {
 			if !t.Running() {
 				return
