@@ -8,6 +8,7 @@ import {AutoScrollAtom} from "./atom/AutoScrollAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {ScrollLog} from "./function/ScrollLog";
 import {LogAtom} from "./atom/LogAtom";
+import "./css/Log.css";
 
 export function Log () {
     const [log, setLog] = useRecoilState(LogAtom);

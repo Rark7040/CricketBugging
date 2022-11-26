@@ -1,6 +1,7 @@
 import {AddressesInputs} from "./AddressInputs";
 import {Log} from "./Log";
 import {ButtonControls} from "./ButtonControls";
+import "./css/Body.css";
 
 export function Body() {
     return (

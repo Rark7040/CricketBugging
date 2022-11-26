@@ -1,0 +1,11 @@
+.log-flex{
+    display: flex;
+    align-content: space-around;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.Body{
+    padding: 10px;
+}
