@@ -37,7 +37,7 @@ export class LogMessage {
         const content = React.createElement('div', {
             key: "log" + id + "-content",
             id: "log" + id + "-content",
-            className: "pk-box",
+            className: "log-content",
             children: [this.getContent()]
         });
 
