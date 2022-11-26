@@ -15,13 +15,16 @@ func main() {
 	app := NewApp()
 	binds := NewBinds() //binds backend funcs to frontend.
 	err := wails.Run(&options.App{
-		Title:  "CricketBugging",
-		Width:  1024,
-		Height: 768,
+		Title:     "CricketBugging",
+		Width:     1024,
+		Height:    600,
+		MinWidth:  1024,
+		MinHeight: 600,
+		Frameless: false,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		BackgroundColour: &options.RGBA{R: 3, G: 3, B: 3, A: 1},
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			binds,
