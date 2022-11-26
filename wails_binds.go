@@ -48,3 +48,7 @@ func (b WailsBinds) GetTitle(id int) string {
 func (b WailsBinds) GetContent(id int) string {
 	return b.tunnel.Logger().Content(id)
 }
+
+func (b WailsBinds) Debug() {
+	b.tunnel.Logger().Debug()
+}

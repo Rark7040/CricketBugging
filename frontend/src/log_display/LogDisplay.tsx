@@ -3,6 +3,7 @@ import {Body} from "./Body";
 import "./css/LogDisplay.css";
 
 export function LogDisplay() {
+    //TODO デバッグメニュー
     return (
         <div id="LogDisplay">
             <Header/>

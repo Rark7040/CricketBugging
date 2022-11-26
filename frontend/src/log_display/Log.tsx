@@ -48,7 +48,7 @@ export function Log () {
         }));
     }
 
-    interval ??= setInterval( () => checkUpdate(log, setLog), 10000000000);
+    interval ??= setInterval( () => checkUpdate(log, setLog), 20);
     createLogContents(log);
 
     useEffect(() => {

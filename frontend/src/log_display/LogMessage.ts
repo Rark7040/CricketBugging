@@ -37,12 +37,23 @@ export class LogMessage {
 
     public toElement(): React.DetailedReactHTMLElement<{ children: any[]; key: string }, HTMLElement> {
         const id = this.getId();
-
-        //TODO added onClick func
         const title = React.createElement('div', {
             key: "log" + id,
             id: "log" + id,
             className: "log-title",
+            onClick: () => {
+                // @ts-ignore
+                const id: string = e.target.id?? "";
+                const pk_box = document.getElementById(id+"-content");
+                if(pk_box === null) return;
+                console.log(pk_box.style.display);
+                if(pk_box.style.display === "none" || pk_box.style.display === ""){
+                    pk_box.style.display = 'block';
+
+                }else{
+                    pk_box.style.display = 'none';
+                }
+            },
             children: [LogMessage.getPrefix() + this.getTitle()]
         });
         const content = React.createElement('div', {
