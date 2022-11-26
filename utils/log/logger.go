@@ -7,8 +7,8 @@ type Logger struct {
 	messages map[int]Message
 }
 
-func NewLogger() Logger {
-	return Logger{
+func NewLogger() *Logger {
+	return &Logger{
 		ids:      0,
 		messages: map[int]Message{},
 	}
@@ -23,14 +23,14 @@ func (l *Logger) Logging(m Message) {
 	l.ids += 1
 }
 
-func (l *Logger) GetTitle(id int) string {
+func (l *Logger) Title(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.title
 	}
 	return ""
 }
 
-func (l *Logger) GetContent(id int) string {
+func (l *Logger) Content(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.content
 	}

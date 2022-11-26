@@ -12,7 +12,7 @@ import (
 
 type GopherTunnel struct {
 	running bool
-	logger  log.Logger
+	logger  *log.Logger
 }
 
 func NewTunnel() *GopherTunnel {
@@ -30,14 +30,14 @@ func (t *GopherTunnel) Kill() {
 	t.running = false
 }
 
-func (t *GopherTunnel) GetLogger() *log.Logger {
-	return &t.logger
+func (t *GopherTunnel) Logger() *log.Logger {
+	return t.logger
 }
 
 func (t *GopherTunnel) Listen(pk packet.Packet) {
 	switch p := pk.(type) {
 	case *packet.AddItemActor:
-		t.GetLogger().Logging(
+		t.Logger().Logging(
 			log.NewMsg(
 				"AddItemActor",
 				spew.Sdump(p),
@@ -46,11 +46,9 @@ func (t *GopherTunnel) Listen(pk packet.Packet) {
 	}
 }
 
-func (t *GopherTunnel) RunGopherTunnel(local string, remote string) {
+func (t *GopherTunnel) Run(addr AddressInfo) {
 	t.running = true
-	addr := NewAddr(local, remote)
-	tsrc := genToken(t.GetLogger())
-
+	tsrc := genToken(t.Logger())
 	p, err := minecraft.NewForeignStatusProvider(addr.RemoteIp())
 
 	if err != nil {
