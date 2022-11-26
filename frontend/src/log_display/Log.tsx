@@ -6,6 +6,7 @@ import {SyntaxHighlight} from "./SyntaxHightLight";
 import Prism from "prismjs";
 import {AutoScrollAtom} from "./atom/AutoScrollAtom";
 import {useRecoilValue} from "recoil";
+import {ScrollLog} from "./function/ScrollLog";
 
 export class Log extends Component {
     private static ids: number = 0;
@@ -42,14 +43,6 @@ export class Log extends Component {
         }));
     }
 
-    private static scroll() {
-        const log_container = document.getElementById("log-container");
-
-        if(log_container !== null){
-            log_container.scrollTop = log_container.scrollHeight;
-        }
-    };
-
     public render(){
         const [log, setLog] = useState([]);
         const auto_scroll = useRecoilValue(AutoScrollAtom);
@@ -60,7 +53,7 @@ export class Log extends Component {
             Prism.highlightAll();
 
             if(auto_scroll){
-                Log.scroll();
+                ScrollLog()
             }
         }, [log]);
 
