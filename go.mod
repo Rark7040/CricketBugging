@@ -1,4 +1,4 @@
-module cricket-bugging
+module cricketbugging
 
 go 1.18
 

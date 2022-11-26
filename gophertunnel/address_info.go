@@ -12,10 +12,10 @@ func NewAddr(local string, remote string) AddressInfo {
 	}
 }
 
-func (addr AddressInfo) GetLocalIp() string {
+func (addr AddressInfo) LocalIp() string {
 	return addr.localIp
 }
 
-func (addr AddressInfo) GetRemoteIp() string {
+func (addr AddressInfo) RemoteIp() string {
 	return addr.remoteIp
 }

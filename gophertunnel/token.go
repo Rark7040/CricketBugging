@@ -1,7 +1,7 @@
 package gophertunnel
 
 import (
-	"cricket-bugging/utils/log"
+	"cricketbugging/utils/log"
 	"encoding/json"
 	"fmt"
 	"github.com/sandertv/gophertunnel/minecraft/auth"
@@ -48,24 +48,24 @@ func genToken(l *log.Logger) oauth2.TokenSource {
 		token, err = RequestLiveToken(l)
 		check(err)
 	}
-	src := auth.RefreshTokenSource(token)
-	_, err = src.Token()
+	tsrc := auth.RefreshTokenSource(token)
+	_, err = tsrc.Token()
 	if err != nil {
 		token, err = RequestLiveToken(l)
 		check(err)
-		src = auth.RefreshTokenSource(token)
+		tsrc = auth.RefreshTokenSource(token)
 	}
 	go func() {
 		c := make(chan os.Signal, 3)
 		signal.Notify(c, syscall.SIGTERM, syscall.SIGINT)
 		<-c
 
-		tok, _ := src.Token()
+		tok, _ := tsrc.Token()
 		b, _ := json.Marshal(tok)
 		_ = ioutil.WriteFile("token.tok", b, 0644)
 		os.Exit(0)
 	}()
-	return src
+	return tsrc
 }
 
 func RequestLiveToken(l *log.Logger) (*oauth2.Token, error) {

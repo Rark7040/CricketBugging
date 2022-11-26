@@ -1,7 +1,7 @@
 package gophertunnel
 
 import (
-	"cricket-bugging/utils/log"
+	"cricketbugging/utils/log"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 	"github.com/sandertv/gophertunnel/minecraft"
@@ -22,7 +22,7 @@ func NewTunnel() *GopherTunnel {
 	}
 }
 
-func (t GopherTunnel) IsRunning() bool {
+func (t GopherTunnel) Running() bool {
 	return t.running
 }
 
@@ -49,16 +49,16 @@ func (t *GopherTunnel) Listen(pk packet.Packet) {
 func (t *GopherTunnel) RunGopherTunnel(local string, remote string) {
 	t.running = true
 	addr := NewAddr(local, remote)
-	tkn := genToken(t.GetLogger())
+	tsrc := genToken(t.GetLogger())
 
-	p, err := minecraft.NewForeignStatusProvider(addr.GetRemoteIp())
+	p, err := minecraft.NewForeignStatusProvider(addr.RemoteIp())
 
 	if err != nil {
 		panic(err)
 	}
 	listener, err := minecraft.ListenConfig{
 		StatusProvider: p,
-	}.Listen("raknet", addr.GetLocalIp())
+	}.Listen("raknet", addr.LocalIp())
 
 	if err != nil {
 		panic(err)
@@ -69,28 +69,28 @@ func (t *GopherTunnel) RunGopherTunnel(local string, remote string) {
 		defer listener.Close()
 		defer t.logger.Logging(log.NewMsgNoContent("gophertunnel stopped"))
 		for {
-			if !t.IsRunning() {
+			if !t.Running() {
 				return
 			}
 		}
 	}()
 	for { // on login
 		c, err := listener.Accept()
-		if !t.IsRunning() {
+		if !t.Running() {
 			return
 		}
 		if err != nil {
 			panic(err)
 		}
-		go t.handleConn(c.(*minecraft.Conn), listener, addr, tkn)
+		go t.handleConn(c.(*minecraft.Conn), listener, addr, tsrc)
 	}
 }
 
-func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.Listener, addr AddressInfo, tkn oauth2.TokenSource) {
+func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.Listener, addr AddressInfo, tsrc oauth2.TokenSource) {
 	serverConn, err := minecraft.Dialer{
-		TokenSource: tkn,
+		TokenSource: tsrc,
 		ClientData:  conn.ClientData(),
-	}.Dial("raknet", addr.GetRemoteIp())
+	}.Dial("raknet", addr.RemoteIp())
 
 	if err != nil {
 		panic(err)
@@ -100,7 +100,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 
 	go func() {
 		if err := conn.StartGame(serverConn.GameData()); err != nil {
-			if !t.IsRunning() {
+			if !t.Running() {
 				return
 			}
 			//on stop join progress
@@ -111,7 +111,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 
 	go func() {
 		if err := serverConn.DoSpawn(); err != nil {
-			if !t.IsRunning() {
+			if !t.Running() {
 				return
 			}
 			panic(err)
@@ -120,14 +120,14 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 	}()
 	g.Wait()
 
-	if !t.IsRunning() {
+	if !t.Running() {
 		return
 	}
 	go func() {
 		defer listener.Disconnect(conn, "connection lost")
 		defer serverConn.Close()
 		for {
-			if !t.IsRunning() {
+			if !t.Running() {
 				return
 			}
 			pk, err := conn.ReadPacket()
@@ -150,7 +150,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 		defer listener.Disconnect(conn, "connection lost")
 		defer t.logger.Logging(log.NewMsgNoContent("disconnected"))
 		for {
-			if !t.IsRunning() {
+			if !t.Running() {
 				return
 			}
 			pk, err := serverConn.ReadPacket()
