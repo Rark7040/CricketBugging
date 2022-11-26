@@ -2,7 +2,7 @@ package main
 
 import (
 	"cricketbugging/gophertunnel"
-	"cricketbugging/utils/log"
+	"cricketbugging/log"
 )
 
 // WailsBinds if you'll bind functions to in frontend,

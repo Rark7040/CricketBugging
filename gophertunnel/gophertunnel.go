@@ -1,7 +1,7 @@
 package gophertunnel
 
 import (
-	"cricketbugging/utils/log"
+	"cricketbugging/log"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 	"github.com/sandertv/gophertunnel/minecraft"

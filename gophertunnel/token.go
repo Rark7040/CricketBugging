@@ -1,7 +1,7 @@
 package gophertunnel
 
 import (
-	"cricketbugging/utils/log"
+	"cricketbugging/log"
 	"encoding/json"
 	"fmt"
 	"github.com/sandertv/gophertunnel/minecraft/auth"
