@@ -6,6 +6,10 @@ export function GetContent(arg1) {
   return window['go']['main']['WailsBinds']['GetContent'](arg1);
 }
 
+export function GetLatestId() {
+  return window['go']['main']['WailsBinds']['GetLatestId']();
+}
+
 export function GetTitle(arg1) {
   return window['go']['main']['WailsBinds']['GetTitle'](arg1);
 }

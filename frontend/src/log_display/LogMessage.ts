@@ -24,6 +24,17 @@ export class LogMessage {
         return this.title;
     }
 
+    private static getPrefix(): string {
+        const date: Date = new Date();
+        return (
+            "[" +
+            date.getHours() +
+            date.getMinutes +
+            date.getSeconds() +
+            "]: "
+        );
+    }
+
     public toElement(): React.DetailedReactHTMLElement<{ children: any[]; key: string }, HTMLElement> {
         const id = this.getId();
 
@@ -32,7 +43,7 @@ export class LogMessage {
             key: "log" + id,
             id: "log" + id,
             className: "log-title",
-            children: [this.getTitle()]
+            children: [LogMessage.getPrefix() + this.getTitle()]
         });
         const content = React.createElement('div', {
             key: "log" + id + "-content",

@@ -14,8 +14,12 @@ func NewLogger() *Logger {
 	}
 }
 
-func (l *Logger) NeedsUpdate(p int) bool {
+func (l Logger) NeedsUpdate(p int) bool {
 	return p < l.ids
+}
+
+func (l Logger) Ids() int {
+	return l.ids
 }
 
 func (l *Logger) Logging(m Message) {
@@ -23,14 +27,14 @@ func (l *Logger) Logging(m Message) {
 	l.ids += 1
 }
 
-func (l *Logger) Title(id int) string {
+func (l Logger) Title(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.title
 	}
 	return ""
 }
 
-func (l *Logger) Content(id int) string {
+func (l Logger) Content(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.content
 	}
@@ -46,6 +50,6 @@ func (l *Logger) GetAll() *map[int]Message {
 	return &l.messages
 }
 
-func (l *Logger) Debug() {
+func (l Logger) Debug() {
 	fmt.Println(l.messages)
 }

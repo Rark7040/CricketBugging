@@ -3,6 +3,8 @@
 
 export function GetContent(arg1:number):Promise<string>;
 
+export function GetLatestId():Promise<number>;
+
 export function GetTitle(arg1:number):Promise<string>;
 
 export function IsRunningGopherTunnel():Promise<boolean>;

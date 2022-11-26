@@ -37,6 +37,10 @@ func (b WailsBinds) NeedsUpdate(p int) bool {
 	return b.tunnel.Logger().NeedsUpdate(p)
 }
 
+func (b WailsBinds) GetLatestId() int {
+	return b.tunnel.Logger().Ids()
+}
+
 func (b WailsBinds) GetTitle(id int) string {
 	return b.tunnel.Logger().Title(id)
 }
