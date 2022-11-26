@@ -17,7 +17,7 @@ export class Log extends Component {
         })
     }
 
-    private static getLogsBetween(startId: number, endId: number) {
+    private static getLogsBetween(startId: number, endId: number): Promise<Awaited<LogMessage>[]> {
         let promises: Promise<LogMessage>[] = [];
 
         for (let id = startId; id <= endId; ++id){
