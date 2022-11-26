@@ -1,8 +1,11 @@
-import {SyntheticEvent, useState} from "react";
+import {SyntheticEvent} from "react";
+import {useRecoilState} from "recoil";
+import {LocalAddressAtom} from "./atom/LocalAddressAtom";
+import {RemoteAddressAtom} from "./atom/RemoteAddressAtom";
 
 export function AddressesInputs() {
-    const [local, setLocal] = useState("0.0.0.0:19132");
-    const [remote, setRemote] = useState("s.mclife.pro:51091");
+    const [local, setLocal] = useRecoilState(LocalAddressAtom);
+    const [remote, setRemote] = useRecoilState(RemoteAddressAtom);
     // @ts-ignore
     const updateLocal = (event: SyntheticEvent) => setLocal(event.target.value);
     // @ts-ignore

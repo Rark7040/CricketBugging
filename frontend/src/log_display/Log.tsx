@@ -50,12 +50,16 @@ export class Log extends Component {
 
     public render(){
         const [log, setLog] = useState([]);
+        const auto_scroll = useRecoilValue(AutoScrollAtom);
         Log.interval ??= setInterval( () => this.checkUpdate(log, setLog), 20);
         Log.createLogContents(log);
 
         useEffect(() => {
             Prism.highlightAll();
-            scroll()
+
+            if(auto_scroll){
+                Log.scroll();
+            }
         }, [log]);
 
         return  (

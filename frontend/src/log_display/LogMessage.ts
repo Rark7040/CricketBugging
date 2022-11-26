@@ -63,8 +63,8 @@ export class LogMessage {
             GetTitle(id).then((title: string) => {
                 GetContent(id).then((content: string) => {
                     return new LogMessage(id, title, content);
-                });
-            });
+                })
+            })
         });
     }
 }
