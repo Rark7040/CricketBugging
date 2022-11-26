@@ -1,7 +1,9 @@
-import React, {Component, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {GetLatestId, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
+import {SyntaxHighlight} from "./SyntaxHightLight";
+import Prism from "prismjs";
 
 export class Log extends Component {
     private static ids: number = 0;
@@ -38,14 +40,29 @@ export class Log extends Component {
         }));
     }
 
+    private static scroll() {
+        const log_container = document.getElementById("log-container");
+
+        if(log_container !== null){
+            log_container.scrollTop = log_container.scrollHeight;
+        }
+    };
+
     public render(){
         const [log, setLog] = useState([]);
         Log.interval ??= setInterval( () => this.checkUpdate(log, setLog), 20);
         Log.createLogContents(log);
 
+        useEffect(() => {
+            Prism.highlightAll();
+            scroll()
+        }, [log]);
+
         return  (
             <div id="Log">
-                <div className="log-container" id="log-container"/>
+                <SyntaxHighlight>
+                    <div className="log-container" id="log-container"/>
+                </SyntaxHighlight>
             </div>
         );
     }
