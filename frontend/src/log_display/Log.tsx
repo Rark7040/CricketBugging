@@ -4,6 +4,8 @@ import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
 import {SyntaxHighlight} from "./SyntaxHightLight";
 import Prism from "prismjs";
+import {AutoScrollAtom} from "./atom/AutoScrollAtom";
+import {useRecoilValue} from "recoil";
 
 export class Log extends Component {
     private static ids: number = 0;
