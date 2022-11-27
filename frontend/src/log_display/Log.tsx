@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {GetLatestId, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
@@ -9,20 +9,29 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {ScrollLog} from "./function/ScrollLog";
 import {LogAtom} from "./atom/LogAtom";
 import "./css/Log.css";
+import {DebugAtom} from "./atom/DebugAtom";
 
 export function Log () {
-    const [log, setLog] = useRecoilState(LogAtom);
+    const [log] = useRecoilValue(LogAtom);
+    const log_ref = useRef(log);
     const auto_scroll = useRecoilValue(AutoScrollAtom);
+    const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
     const ids = useRef(0);
     const intervalId  = useRef(setInterval( () => checkUpdate(), 20));
 
     function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
             if(!needsUpdate) return;
+            setDebugLog(debug_log +"\n"+"called!");
             GetLatestId().then((latestId: number) => {
                 ids.current = latestId; //sync to backend logger id
-                //@ts-ignore
-                getLogsBetween(ids.current, latestId).then((newLogs) => setLog(log + newLogs));
+                setDebugLog(debug_log +"\n"+ids.current);
+                getLogsBetween(ids.current, latestId).then((newLogs) => {
+
+                    setDebugLog(debug_log +"\nnewlen:"+newLogs.length);
+                    log_ref.current = log_ref.current.concat(newLogs);
+
+                }).then(() => createLogContents(log_ref.current));
             });
         })
     }
@@ -49,7 +58,6 @@ export function Log () {
     }
 
     useEffect(() => {
-        createLogContents(log);
         Prism.highlightAll();
 
         if(auto_scroll){

@@ -23,7 +23,7 @@ export function ButtonControls() {
             <button className="btn" onClick={() => updateAutoScroll()}>ToggleAutoScroll</button>
             <button className="btn" onClick={() => {
                 Debug();
-                setDebugLog(debug_log+"\n"+log);
+                setDebugLog(debug_log+"\n"+log.length+".");
             }}>Debug</button>
         </div>
     );
