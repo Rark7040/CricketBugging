@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {GetLatestId, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
@@ -13,16 +13,16 @@ import "./css/Log.css";
 export function Log () {
     const [log, setLog] = useRecoilState(LogAtom);
     const auto_scroll = useRecoilValue(AutoScrollAtom);
+    const ids = useRef(0);
+    const intervalId  = useRef(setInterval( () => checkUpdate(), 20));
 
-    let ids: number = 0;
-    let interval: number|undefined = undefined;
-
-    function checkUpdate(logs: LogMessage[], setLog: Function) {
-        NeedsUpdate(ids).then((needsUpdate: boolean) => {
+    function checkUpdate() {
+        NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
             if(!needsUpdate) return;
             GetLatestId().then((latestId: number) => {
-                getLogsBetween(ids, latestId).then((newLogs) => setLog(logs.concat(newLogs)));
-                ids = latestId; //sync to backend logger id
+                ids.current = latestId; //sync to backend logger id
+                //@ts-ignore
+                getLogsBetween(ids.current, latestId).then((newLogs) => setLog(log + newLogs));
             });
         })
     }
@@ -48,17 +48,14 @@ export function Log () {
         }));
     }
 
-    interval ??= setInterval( () => checkUpdate(log, setLog), 20);
-    createLogContents(log);
-
     useEffect(() => {
+        createLogContents(log);
         Prism.highlightAll();
 
         if(auto_scroll){
             ScrollLog()
         }
     }, [log]);
-
     return  (
         <div id="Log">
             <SyntaxHighlight>

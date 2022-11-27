@@ -1,6 +1,9 @@
 package log
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 type Logger struct {
 	ids      int
@@ -51,5 +54,8 @@ func (l *Logger) GetAll() *map[int]Message {
 }
 
 func (l Logger) Debug() {
+	fmt.Println("update0: " + strconv.FormatBool(l.NeedsUpdate(0)))
+	fmt.Println("update1: " + strconv.FormatBool(l.NeedsUpdate(1)))
+	fmt.Println("update2: " + strconv.FormatBool(l.NeedsUpdate(2)))
 	fmt.Println(l.messages)
 }
