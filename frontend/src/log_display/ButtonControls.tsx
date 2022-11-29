@@ -1,11 +1,11 @@
-import {ScrollLog} from "./function/ScrollLog";
+import {Scroll} from "./function/Scroll";
 import {Debug, KillGopherTunnel, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {AutoScrollAtom} from "./atom/AutoScrollAtom";
-import {LocalAddressAtom} from "./atom/LocalAddressAtom";
-import {RemoteAddressAtom} from "./atom/RemoteAddressAtom";
-import {DebugAtom} from "./atom/DebugAtom";
-import {LogAtom} from "./atom/LogAtom";
+import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";
+import {LocalAddressAtom} from "./recoil/atom/LocalAddressAtom";
+import {RemoteAddressAtom} from "./recoil/atom/RemoteAddressAtom";
+import {DebugAtom} from "./recoil/atom/DebugAtom";
+import {LogAtom} from "./recoil/atom/LogAtom";
 
 export function ButtonControls() {
     const [localAddr] = useRecoilValue(LocalAddressAtom);
@@ -19,11 +19,11 @@ export function ButtonControls() {
         <div id="ButtonControls">
             <button className="btn" onClick={() => RunGopherTunnel(localAddr, remoteAddr)}>Start</button>
             <button className="btn" onClick={() => KillGopherTunnel()}>Kill</button>
-            <button className="btn" onClick={() => ScrollLog()}>Scroll</button>
+            <button className="btn" onClick={() => Scroll("log-container")}>Scroll</button>
             <button className="btn" onClick={() => updateAutoScroll()}>ToggleAutoScroll</button>
             <button className="btn" onClick={() => {
                 Debug();
-                setDebugLog(debug_log+"\n"+log.length+".");
+                setDebugLog(debug_log+"\n"+log.length+"件のts側在庫");
             }}>Debug</button>
         </div>
     );

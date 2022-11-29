@@ -1,21 +1,19 @@
 import "./css/Debug.css";
 import {useRecoilState} from "recoil";
-import {DebugAtom} from "./atom/DebugAtom";
-import {useEffect, useRef} from "react";
+import {DebugAtom} from "./recoil/atom/DebugAtom";
+import React, {useEffect} from "react";
+import {Scroll} from "./function/Scroll";
+import {createRoot} from "react-dom/client";
 
 export function Debug() {
     const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
-    const cnt = useRef(0);
 
     useEffect(() => {
-        if(cnt.current < 1){
-            setDebugLog((prevLog: string) => prevLog + "\n\n" + "aho"+cnt.current);
-            cnt.current++;
-        }
-    });
+        Scroll("debug-log-container");
+    }, [debug_log]);
     return (
         <div id="Debug">
-            <pre className="debug-log-container" id="debug-log-container">{debug_log}</pre>
+            <div className="debug-log-container" id="debug-log-container">{debug_log}</div>
         </div>
     );
 }

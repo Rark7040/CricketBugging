@@ -57,5 +57,5 @@ func (l Logger) Debug() {
 	fmt.Println("update0: " + strconv.FormatBool(l.NeedsUpdate(0)))
 	fmt.Println("update1: " + strconv.FormatBool(l.NeedsUpdate(1)))
 	fmt.Println("update2: " + strconv.FormatBool(l.NeedsUpdate(2)))
-	fmt.Println(l.messages)
+	fmt.Println(strconv.Itoa(len(l.messages)) + "件のgo側在庫")
 }

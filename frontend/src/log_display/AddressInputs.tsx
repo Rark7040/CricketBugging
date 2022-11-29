@@ -1,7 +1,7 @@
 import {SyntheticEvent} from "react";
 import {useRecoilState} from "recoil";
-import {LocalAddressAtom} from "./atom/LocalAddressAtom";
-import {RemoteAddressAtom} from "./atom/RemoteAddressAtom";
+import {LocalAddressAtom} from "./recoil/atom/LocalAddressAtom";
+import {RemoteAddressAtom} from "./recoil/atom/RemoteAddressAtom";
 import "./css/AddressInputs.css";
 
 export function AddressesInputs() {
