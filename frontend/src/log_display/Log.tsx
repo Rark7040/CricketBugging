@@ -16,15 +16,10 @@ export function Log () {
     const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
     const debug_ref = useRef(debug_log);
     const ids = useRef(0);
-    //const intervalId  = useRef(setInterval( () => checkUpdate(), 300));
+    const intervalId  = useRef(setInterval( () => checkUpdate(), 500));
 
     async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
-
-            if(!needsUpdate){
-                setDebugLog(debug_log +"\n"+"更新ねーわ。現在:"+ ids.current);
-            }
-
             if(!needsUpdate) return;
             GetLatestId().then((latestId: number) => {
                 getLogsBetween(ids.current, latestId); //fix list index
@@ -45,22 +40,15 @@ export function Log () {
         ids.current = endId; //sync to backend logger id
 
         Promise.all(promises).then((newLogs) => {
-            log.current = log.current.concat(newLogs); //なぜか呼ばれない
-            createLogContents(log.current); //多分呼ばれてない
+            log.current = log.current.concat(newLogs);
+            createLogContents(log.current);
         });
-
-        //debug
-        LogMessage.fromId(endId-1).then(
-            (msg) => {
-                const id = endId-1;
-                setDebugLog(debug_log + "\n" + "取得完了 " + cnt + "件" + "\n" + "開始: " + startId + "  確定: " + id + " title: " + msg.getTitle() + " content: " + msg.getContent());
-            }
-        );
     }
 
     function createLogContents(logs: LogMessage[]) {
         let log_elements: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
-        logs.forEach((log: LogMessage) => log_elements.push(log.toElement()));
+        logs.forEach((log) => log_elements.push(log.toElement()));
+
         const log_container = document.getElementById('log-container');
 
         if(log_container === null) return;
@@ -77,6 +65,7 @@ export function Log () {
             Scroll("log-container");
         }
     }, []);
+
     return  (
         <div id="Log">
             <div className="log-container" id="log-container"/>

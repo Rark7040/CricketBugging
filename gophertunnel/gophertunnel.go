@@ -2,6 +2,7 @@ package gophertunnel
 
 import (
 	"cricketbugging/log"
+	"fmt"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 	"github.com/sandertv/gophertunnel/minecraft"
@@ -48,15 +49,17 @@ func (t *GopherTunnel) Listen(pk packet.Packet) {
 
 func (t *GopherTunnel) Run(addr AddressInfo) {
 	t.running = true
-	tsrc := genToken(t.Logger())
-	p, err := minecraft.NewForeignStatusProvider(addr.RemoteIp())
+	p, err := minecraft.NewForeignStatusProvider(addr.Connection.RemoteAddress)
 
 	if err != nil {
+		fmt.Println(spew.Sdump(addr))
+		fmt.Println(err.Error())
 		panic(err)
 	}
+	tsrc := genToken(t.Logger())
 	listener, err := minecraft.ListenConfig{
 		StatusProvider: p,
-	}.Listen("raknet", addr.LocalIp())
+	}.Listen("raknet", addr.Connection.LocalAddress)
 
 	if err != nil {
 		panic(err)
@@ -92,7 +95,7 @@ func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.List
 	serverConn, err := minecraft.Dialer{
 		TokenSource: tsrc,
 		ClientData:  conn.ClientData(),
-	}.Dial("raknet", addr.RemoteIp())
+	}.Dial("raknet", addr.Connection.RemoteAddress)
 
 	if err != nil {
 		panic(err)

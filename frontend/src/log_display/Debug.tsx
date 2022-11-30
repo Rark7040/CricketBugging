@@ -3,7 +3,6 @@ import {useRecoilState} from "recoil";
 import {DebugAtom} from "./recoil/atom/DebugAtom";
 import React, {useEffect} from "react";
 import {Scroll} from "./function/Scroll";
-import {createRoot} from "react-dom/client";
 
 export function Debug() {
     const [debug_log, setDebugLog] = useRecoilState(DebugAtom);

@@ -6,11 +6,14 @@ export class LogMessage {
     private readonly id: number;
     private readonly title: string;
     private readonly content: string;
+    private readonly prefix: string;
 
     private constructor(id: number, title: string, content: string) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.prefix = LogMessage.getPrefix();
+
     }
 
     public getId(): number {
@@ -22,7 +25,7 @@ export class LogMessage {
     }
 
     public getContent(): string {
-        return this.title;
+        return this.content;
     }
 
     private static getPrefix(): string {
@@ -41,7 +44,7 @@ export class LogMessage {
                 const id: string|null = ev.target.id;
                 if(id === null) return;
 
-                const log_content = document.getElementById(id+"-content");
+                const log_content = document.getElementById(id + "-content");
                 if(log_content === null) return;
                 if(log_content.style.display === "none" || log_content.style.display === ""){
                     log_content.style.display = 'block';
@@ -50,7 +53,7 @@ export class LogMessage {
                     log_content.style.display = 'none';
                 }
             },
-            children: [LogMessage.getPrefix() + this.getTitle()]
+            children: [this.prefix + this.getTitle()]
         });
 
         const content = React.createElement('div', {
