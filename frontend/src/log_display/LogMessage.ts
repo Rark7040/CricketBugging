@@ -70,10 +70,10 @@ export class LogMessage {
     }
 
     public static fromId(id: number): Promise<LogMessage> {
-        return new Promise(() => {
+        return new Promise((resolve: (value: (PromiseLike<LogMessage> | LogMessage)) => void, reject) => {
             GetTitle(id).then((title: string) => {
                 GetContent(id).then((content: string) => {
-                    return new LogMessage(id, title, content);
+                    resolve(new LogMessage(id, title, content));
                 })
             })
         });
