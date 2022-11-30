@@ -1,5 +1,5 @@
 import {Scroll} from "./function/Scroll";
-import {Debug, KillGopherTunnel, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
+import {AddLog, Debug, KillGopherTunnel, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";
 import {LocalAddressAtom} from "./recoil/atom/LocalAddressAtom";
@@ -25,6 +25,7 @@ export function ButtonControls() {
                 Debug();
                 setDebugLog(debug_log+"\n"+log.length+"件のts側在庫");
             }}>Debug</button>
+            <button className="btn" onClick={() => AddLog()}>AddLog</button>
         </div>
     );
 }

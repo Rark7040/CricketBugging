@@ -3,6 +3,7 @@ package main
 import (
 	"cricketbugging/gophertunnel"
 	"cricketbugging/log"
+	"fmt"
 )
 
 // WailsBinds if you'll bind functions to in frontend,
@@ -42,6 +43,7 @@ func (b WailsBinds) GetLatestId() int {
 }
 
 func (b WailsBinds) GetTitle(id int) string {
+	fmt.Println(b.tunnel.Logger().Title(id))
 	return b.tunnel.Logger().Title(id)
 }
 
@@ -51,4 +53,8 @@ func (b WailsBinds) GetContent(id int) string {
 
 func (b WailsBinds) Debug() {
 	b.tunnel.Logger().Debug()
+}
+
+func (b WailsBinds) AddLog() {
+	b.tunnel.Logger().Logging(log.NewMsg("ahoaho", "hogeeeeee!"))
 }

@@ -12,7 +12,7 @@ type Logger struct {
 
 func NewLogger() *Logger {
 	return &Logger{
-		ids:      0,
+		ids:      -1,
 		messages: map[int]Message{},
 	}
 }
@@ -26,22 +26,22 @@ func (l Logger) Ids() int {
 }
 
 func (l *Logger) Logging(m Message) {
-	l.messages[l.ids] = m
 	l.ids += 1
+	l.messages[l.ids] = m
 }
 
 func (l Logger) Title(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.title
 	}
-	return ""
+	return "null"
 }
 
 func (l Logger) Content(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.content
 	}
-	return ""
+	return "null"
 }
 
 func (l *Logger) Clear() {

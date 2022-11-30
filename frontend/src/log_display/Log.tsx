@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {GetLatestId, NeedsUpdate, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
+import {GetContent, GetLatestId, GetTitle, NeedsUpdate, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
 import {SyntaxHighlight} from "./SyntaxHightLight";
@@ -49,7 +49,12 @@ export function Log () {
             setDebugLog(debug_log +"\n"+"更新したで"); //なぜか呼ばれない
         });
 
-        setDebugLog(debug_log +"\n"+"取得完了 "+ cnt +"件"+"\n"+"開始: " + startId + "  確定: " + endId);
+
+        LogMessage.fromId(endId).then(
+            (msg) => {
+                setDebugLog(debug_log + "\n" + "取得完了 " + cnt + "件" + "\n" + "開始: " + startId + "  確定: " + endId + " title: " + msg.getTitle() + " content: " + msg.getContent());
+            }
+        );
     }
 
     function createLogContents(logs: LogMessage[]) {
