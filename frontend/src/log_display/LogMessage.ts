@@ -1,5 +1,6 @@
 import {GetContent, GetTitle} from "../../wailsjs/go/main/WailsBinds";
-import React from "react";
+import React, {SyntheticEvent} from "react";
+import "./css/LogMessage.css";
 
 export class LogMessage {
     private readonly id: number;
@@ -26,13 +27,7 @@ export class LogMessage {
 
     private static getPrefix(): string {
         const date: Date = new Date();
-        return (
-            "[" +
-            date.getHours() +
-            date.getMinutes +
-            date.getSeconds() +
-            "]: "
-        );
+        return "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]: ";
     }
 
     public toElement(): React.DetailedReactHTMLElement<{ children: any[]; key: string }, HTMLElement> {
@@ -41,21 +36,23 @@ export class LogMessage {
             key: "log" + id,
             id: "log" + id,
             className: "log-title",
-            onClick: () => {
+            onClick: (ev: SyntheticEvent) => {
                 // @ts-ignore
-                const id: string = e.target.id?? "";
-                const pk_box = document.getElementById(id+"-content");
-                if(pk_box === null) return;
-                console.log(pk_box.style.display);
-                if(pk_box.style.display === "none" || pk_box.style.display === ""){
-                    pk_box.style.display = 'block';
+                const id: string|null = ev.target.id;
+                if(id === null) return;
+
+                const log_content = document.getElementById(id+"-content");
+                if(log_content === null) return;
+                if(log_content.style.display === "none" || log_content.style.display === ""){
+                    log_content.style.display = 'block';
 
                 }else{
-                    pk_box.style.display = 'none';
+                    log_content.style.display = 'none';
                 }
             },
             children: [LogMessage.getPrefix() + this.getTitle()]
         });
+
         const content = React.createElement('div', {
             key: "log" + id + "-content",
             id: "log" + id + "-content",
@@ -70,7 +67,7 @@ export class LogMessage {
     }
 
     public static fromId(id: number): Promise<LogMessage> {
-        return new Promise((resolve: (value: (PromiseLike<LogMessage> | LogMessage)) => void, reject) => {
+        return new Promise((resolve: (value: (PromiseLike<LogMessage> | LogMessage)) => void) => {
             GetTitle(id).then((title: string) => {
                 GetContent(id).then((content: string) => {
                     resolve(new LogMessage(id, title, content));

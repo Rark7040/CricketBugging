@@ -12,7 +12,7 @@ type Logger struct {
 
 func NewLogger() *Logger {
 	return &Logger{
-		ids:      -1,
+		ids:      0,
 		messages: map[int]Message{},
 	}
 }
@@ -26,8 +26,8 @@ func (l Logger) Ids() int {
 }
 
 func (l *Logger) Logging(m Message) {
-	l.ids += 1
 	l.messages[l.ids] = m
+	l.ids += 1
 }
 
 func (l Logger) Title(id int) string {
@@ -54,8 +54,6 @@ func (l *Logger) GetAll() *map[int]Message {
 }
 
 func (l Logger) Debug() {
-	fmt.Println("update0: " + strconv.FormatBool(l.NeedsUpdate(0)))
-	fmt.Println("update1: " + strconv.FormatBool(l.NeedsUpdate(1)))
-	fmt.Println("update2: " + strconv.FormatBool(l.NeedsUpdate(2)))
 	fmt.Println(strconv.Itoa(len(l.messages)) + "件のgo側在庫")
+	fmt.Println(strconv.Itoa(l.Ids()) + "ids")
 }

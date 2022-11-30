@@ -1,25 +1,24 @@
-import React, {useEffect, useRef, useState} from "react";
-import {GetContent, GetLatestId, GetTitle, NeedsUpdate, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
+import React, {useEffect, useRef} from "react";
+import {GetLatestId, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
-import {SyntaxHighlight} from "./SyntaxHightLight";
 import Prism from "prismjs";
 import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {Scroll} from "./function/Scroll";
-import {LogAtom} from "./recoil/atom/LogAtom";
 import "./css/Log.css";
 import {DebugAtom} from "./recoil/atom/DebugAtom";
 
 export function Log () {
-    const [log] = useRecoilValue(LogAtom);
-    const log_ref = useRef(log);
+    const default_log: LogMessage[] = [];
+    const log= useRef(default_log);
     const auto_scroll = useRecoilValue(AutoScrollAtom);
     const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
+    const debug_ref = useRef(debug_log);
     const ids = useRef(0);
-    //const intervalId  = useRef(setInterval( () => checkUpdate(), 20));
+    //const intervalId  = useRef(setInterval( () => checkUpdate(), 300));
 
-    function checkUpdate() {
+    async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
 
             if(!needsUpdate){
@@ -28,7 +27,7 @@ export function Log () {
 
             if(!needsUpdate) return;
             GetLatestId().then((latestId: number) => {
-                getLogsBetween(ids.current, latestId);
+                getLogsBetween(ids.current, latestId); //fix list index
             });
         })
     }
@@ -40,19 +39,21 @@ export function Log () {
         for (let id = startId; id < endId; ++id){
             promises.push(LogMessage.fromId(id));
             ++cnt;
+
+            debug_ref.current = debug_ref.current + "\n" + "取得中";
         }
         ids.current = endId; //sync to backend logger id
 
         Promise.all(promises).then((newLogs) => {
-            log_ref.current = log_ref.current.concat(newLogs); //なぜか呼ばれない
-            createLogContents(log_ref.current); //多分呼ばれてない
-            setDebugLog(debug_log +"\n"+"更新したで"); //なぜか呼ばれない
+            log.current = log.current.concat(newLogs); //なぜか呼ばれない
+            createLogContents(log.current); //多分呼ばれてない
         });
 
-
-        LogMessage.fromId(endId).then(
+        //debug
+        LogMessage.fromId(endId-1).then(
             (msg) => {
-                setDebugLog(debug_log + "\n" + "取得完了 " + cnt + "件" + "\n" + "開始: " + startId + "  確定: " + endId + " title: " + msg.getTitle() + " content: " + msg.getContent());
+                const id = endId-1;
+                setDebugLog(debug_log + "\n" + "取得完了 " + cnt + "件" + "\n" + "開始: " + startId + "  確定: " + id + " title: " + msg.getTitle() + " content: " + msg.getContent());
             }
         );
     }
@@ -60,10 +61,10 @@ export function Log () {
     function createLogContents(logs: LogMessage[]) {
         let log_elements: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
         logs.forEach((log: LogMessage) => log_elements.push(log.toElement()));
-        const log_box = document.getElementById('log-container');
+        const log_container = document.getElementById('log-container');
 
-        if(log_box === null) return;
-        const root = createRoot(log_box);
+        if(log_container === null) return;
+        const root = createRoot(log_container);
         root.render(React.createElement('div', {
             children: log_elements
         }));
@@ -75,12 +76,10 @@ export function Log () {
         if(auto_scroll){
             Scroll("log-container");
         }
-    }, [log]);
+    }, []);
     return  (
         <div id="Log">
-            <SyntaxHighlight>
-                <div className="log-container" id="log-container"/>
-            </SyntaxHighlight>
+            <div className="log-container" id="log-container"/>
             <button className="btn" onClick={() => checkUpdate()}>Update</button>
         </div>
     );
