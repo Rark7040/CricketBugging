@@ -1,9 +1,14 @@
 .log-flex{
+    margin-top: 13px;
     display: flex;
     align-content: space-around;
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+.controls{
+    text-align: center;
 }
 
 .Body{

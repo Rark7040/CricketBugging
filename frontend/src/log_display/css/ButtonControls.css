@@ -1,0 +1,11 @@
+.button-controls{
+    border-radius: 0.25rem;
+    --tw-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-shadow);
+    --tw-bg-opacity: 1;
+    background-color: #666;
+    padding: 7px;
+    width: 50vw;
+    margin-right: auto;
+    margin-left: auto;
+}

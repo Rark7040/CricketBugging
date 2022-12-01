@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from "react";
-import {GetLatestId, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
+import React, {useEffect, useRef, useState} from "react";
+import {GetLatestId, KillGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
 import Prism from "prismjs";
@@ -8,13 +8,12 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {Scroll} from "./function/Scroll";
 import "./css/Log.css";
 import {DebugAtom} from "./recoil/atom/DebugAtom";
+import {SyntaxHighlight} from "./SyntaxHightLight";
 
 export function Log () {
     const default_log: LogMessage[] = [];
     const log= useRef(default_log);
     const auto_scroll = useRecoilValue(AutoScrollAtom);
-    const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
-    const debug_ref = useRef(debug_log);
     const ids = useRef(0);
     const intervalId  = useRef(setInterval( () => checkUpdate(), 500));
 
@@ -34,8 +33,6 @@ export function Log () {
         for (let id = startId; id < endId; ++id){
             promises.push(LogMessage.fromId(id));
             ++cnt;
-
-            debug_ref.current = debug_ref.current + "\n" + "取得中";
         }
         ids.current = endId; //sync to backend logger id
 
@@ -59,8 +56,6 @@ export function Log () {
     }
 
     useEffect(() => {
-        Prism.highlightAll();
-
         if(auto_scroll){
             Scroll("log-container");
         }
@@ -69,7 +64,10 @@ export function Log () {
     return  (
         <div id="Log">
             <div className="log-container" id="log-container"/>
-            <button className="btn" onClick={() => checkUpdate()}>Update</button>
+            <button className="btn" onClick={() => {
+                log.current.push(new LogMessage(100000, "testlog", "ahoaho"));
+                createLogContents(log.current)
+            }}>AddLog</button>
         </div>
     );
 }

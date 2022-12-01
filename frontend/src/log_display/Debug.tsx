@@ -5,7 +5,7 @@ import React, {useEffect} from "react";
 import {Scroll} from "./function/Scroll";
 
 export function Debug() {
-    const [debug_log, setDebugLog] = useRecoilState(DebugAtom);
+    const [debug_log] = useRecoilState(DebugAtom);
 
     useEffect(() => {
         Scroll("debug-log-container");

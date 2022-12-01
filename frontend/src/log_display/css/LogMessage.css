@@ -1,4 +1,13 @@
+.log-title:hover{
+    border: 2px solid #5d34a9;
+}
+
+.log-title {
+    background: #222;
+}
+
 .log-content {
     display: none;/*はじめは非表示*/
-    background: #1f2933;
+    margin-top: 0;
+    background: #1c1c1c;
 }

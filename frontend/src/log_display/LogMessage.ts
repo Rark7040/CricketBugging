@@ -1,6 +1,8 @@
 import {GetContent, GetTitle} from "../../wailsjs/go/main/WailsBinds";
 import React, {SyntheticEvent} from "react";
 import "./css/LogMessage.css";
+import {SyntaxHighlight} from "./SyntaxHightLight";
+import Prism from "prismjs";
 
 export class LogMessage {
     private readonly id: number;
@@ -8,7 +10,7 @@ export class LogMessage {
     private readonly content: string;
     private readonly prefix: string;
 
-    private constructor(id: number, title: string, content: string) {
+    public constructor(id: number, title: string, content: string) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -43,28 +45,31 @@ export class LogMessage {
                 // @ts-ignore
                 const id: string|null = ev.target.id;
                 if(id === null) return;
-
                 const log_content = document.getElementById(id + "-content");
                 if(log_content === null) return;
                 if(log_content.style.display === "none" || log_content.style.display === ""){
-                    log_content.style.display = 'block';
+                    log_content.style.display = "block";
 
                 }else{
-                    log_content.style.display = 'none';
+                    log_content.style.display = "none";
                 }
             },
             children: [this.prefix + this.getTitle()]
         });
 
+        const content_class = this.getContent() === ""? "log-content-empty": "log-content";
+        const content_id = this.getContent() === ""? "log" + id + "-content-empty": "log" + id + "-content";
         const content = React.createElement('div', {
             key: "log" + id + "-content",
-            id: "log" + id + "-content",
-            className: "log-content",
-            children: [this.getContent()]
+            id: content_id,
+            className: content_class,
+            children: [React.createElement(SyntaxHighlight, {language: "js", children: [this.getContent()]})]
         });
 
+        Prism.highlightAll();
         return React.createElement('div', {
-            key: "log-list" + id,
+            key: "logs" + id,
+            className: "logs",
             children: [title, content]
         });
     }

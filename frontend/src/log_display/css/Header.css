@@ -1,9 +1,69 @@
-.header {
+.header{
+    display: flex;
+    flex-direction: row;
+}
+
+.header1 {
+    position: absolute;
     top: 0;
-    background-color: #222;
-    width: 100vw;
-    height: 40px;
+    left: 50vw;
+    width: 50vw;
+    height: 65px;
     text-align: left;
+    color: #222;
+    background: #fff;
+    border-bottom: 8px solid #cb6def;
+}
+
+.header2 {
+    position: absolute;
+    top: 0;
+    left: 28vw;
+    width: 50vw;
+    height: 37px;
+    text-align: left;
+    color: #222;
+    background: #fff;
+}
+
+.header3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30vw;
+    height: 30px;
+    text-align: left;
+    color: #222;
+    border-bottom: 8px solid #cb6def;
+    background: #fff;
+}
+
+.header4 {
+    font-size: 0;
+    position: absolute;
+    top: 30px;
+    left: 30vw;
+    width: 62.34791vw;
+    height: 35px;
+    text-align: left;
+    color: #222;
+    border-left: 12px solid #cb6def;
+    border-bottom: 8px solid #cb6def;
+    background: #fff;
+    font-weight: 900;
+    transform: skewX(60deg) translateZ(0px);
+}
+
+.header-background {
+    position: relative;
+    top: 0;
+    width: 100vw;
+    height: 65px;
+    text-align: left;
+    color: #222;
+    border-bottom: solid #444;
+    background: #222;
+    font-weight: 900;
 }
 
 .header-text{
