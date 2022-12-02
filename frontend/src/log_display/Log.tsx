@@ -1,5 +1,5 @@
 import React, {DetailedReactHTMLElement, useEffect, useRef, useState} from "react";
-import {GetLatestId, KillGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
+import {GetLatestId, IsRunningGopherTunnel, KillGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
 import Prism from "prismjs";
@@ -9,11 +9,13 @@ import {Scroll} from "./function/Scroll";
 import "./css/Log.css";
 import {DebugAtom} from "./recoil/atom/DebugAtom";
 import {SyntaxHighlight} from "./SyntaxHightLight";
+import {RunningAtom} from "./recoil/atom/RunnigAtom";
 
 export function Log () {
     const auto_scroll = useRecoilValue(AutoScrollAtom);
     const default_displayed_log: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
     const [displayed_log, setDisplayedLog] = useState(default_displayed_log);
+    const [is_running, setRunning] = useRecoilState(RunningAtom);
     const default_log: LogMessage[] = [];
     const log= useRef(default_log);
     const ids = useRef(0);
@@ -22,6 +24,7 @@ export function Log () {
     async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
             if(!needsUpdate) return;
+            IsRunningGopherTunnel().then(setRunning);
             GetLatestId().then((latestId: number) => {
                 getLogsBetween(ids.current, latestId); //fix list index
             });
@@ -61,16 +64,6 @@ export function Log () {
     return  (
         <div id="Log">
             <div className="log-container" id="log-container"> {displayed_log} </div>
-
-            <button className="btn" onClick={() => {
-                log.current.push(new LogMessage(Math.random()*10000, "testlog", "import {atom} from \"recoil\";\n" +
-                    "\n" +
-                    "export const LocalAddressAtom = atom({\n" +
-                    "    key: \"local_address\",\n" +
-                    "    default: \"\"\n" +
-                    "});"));
-                createLogContents(log.current)
-            }}>AddLog</button>
         </div>
     );
 }

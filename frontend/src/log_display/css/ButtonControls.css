@@ -1,11 +1,36 @@
-.button-controls{
+.buttons-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
     border-radius: 0.25rem;
     --tw-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
     box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-shadow);
     --tw-bg-opacity: 1;
     background-color: #666;
-    padding: 7px;
-    width: 50vw;
-    margin-right: auto;
-    margin-left: auto;
+    padding: 8px;
+    width: 45vw;
+    margin: 0 auto;
+}
+
+button[class^="control-btn"] {
+    padding: 13px 30px;
+    border-radius: 8px;
+    border-style: none;
+    color: #333;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+button[class^="control-btn"]:hover {
+    filter: brightness(87%);
+}
+
+.control-btn-kill {
+    background: #ff4a4a;
+}
+
+.control-btn-toggle-scroll {
+    background: #797575;
 }

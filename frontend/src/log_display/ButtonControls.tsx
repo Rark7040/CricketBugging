@@ -10,15 +10,28 @@ export function ButtonControls() {
     const [localAddr] = useRecoilState(LocalAddressAtom);
     const [remoteAddr] = useRecoilState(RemoteAddressAtom);
     const [auto_scroll, setAutoScroll] = useRecoilState(AutoScrollAtom);
-    const updateAutoScroll = () => setAutoScroll(!auto_scroll);
+
+    function updateAutoScroll(){
+        const toggle_scroll_btn = document.getElementById("auto-scroll-btn");
+        if(toggle_scroll_btn === null) return;
+        if(auto_scroll){
+            toggle_scroll_btn.style.backgroundColor = "#888888";
+
+        }else{
+            toggle_scroll_btn.style.backgroundColor = "#9cd267";
+        }
+        setAutoScroll(!auto_scroll);
+    }
 
     return (
         <div id="ButtonControls">
             <div className="button-controls">
-                <button className="btn" onClick={() => RunGopherTunnel(localAddr, remoteAddr)}>Start</button>
-                <button className="btn" onClick={() => KillGopherTunnel()}>Kill</button>
-                <button className="btn" onClick={() => Scroll("log-container")}>Scroll</button>
-                <button className="btn" onClick={() => updateAutoScroll()}>ToggleAutoScroll</button>
+                <ul className="buttons-list">
+                    <li><button className="control-btn-start" onClick={() => RunGopherTunnel(localAddr, remoteAddr)}>Start</button></li>
+                    <li><button className="control-btn-kill" onClick={() => KillGopherTunnel()}>Kill</button></li>
+                    <li><button className="control-btn-scroll" onClick={() => Scroll("log-container")}>Scroll</button></li>
+                    <li><button className="control-btn-toggle-scroll" id="auto-scroll-btn" onClick={() => updateAutoScroll()}>ToggleAutoScroll</button></li>
+                </ul>
             </div>
         </div>
     );

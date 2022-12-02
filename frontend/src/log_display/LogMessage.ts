@@ -2,7 +2,6 @@ import {GetContent, GetTitle} from "../../wailsjs/go/main/WailsBinds";
 import React, {SyntheticEvent} from "react";
 import "./css/LogMessage.css";
 import {SyntaxHighlight} from "./SyntaxHightLight";
-import Prism from "prismjs";
 
 export class LogMessage {
     private readonly id: number;
@@ -46,11 +45,12 @@ export class LogMessage {
 
         const content_class = this.getContent() === ""? "log-content-empty": "log-content";
         const content_id = this.getContent() === ""? "log" + id + "-content-empty": "log" + id + "-content";
+        const content_children = this.getContent() === ""? []: [React.createElement(SyntaxHighlight, {language: "js", children: [this.getContent()]})];
         const content = React.createElement('div', {
             key: "log" + id + "-content",
             id: content_id,
             className: content_class,
-            children: [React.createElement(SyntaxHighlight, {language: "js", children: [this.getContent()]})]
+            children: content_children
         });
 
         return React.createElement('div', {
@@ -59,7 +59,7 @@ export class LogMessage {
             className: "logs",
             children: [title, content],
             onClick: (ev: SyntheticEvent) => {
-                // @ts-ignore
+                // @ts-ignore  ignore id props
                 const id: string|null = ev.target.id;
                 if(id === null) return;
                 const logs = document.getElementById(id + "ls"); //Los

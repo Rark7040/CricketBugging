@@ -16,9 +16,11 @@ func main() {
 	app := NewApp()
 	binds := NewBinds() //binds backend funcs to frontend.
 	err := wails.Run(&options.App{
-		Title:  "CricketBugging",
-		Width:  1024,
-		Height: 600,
+		Title:     "CricketBugging",
+		Width:     1100,
+		Height:    650,
+		MinWidth:  1100,
+		MinHeight: 650,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

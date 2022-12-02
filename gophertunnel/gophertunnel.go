@@ -48,6 +48,11 @@ func (t *GopherTunnel) Listen(pk packet.Packet) {
 }
 
 func (t *GopherTunnel) Run(addr AddressInfo) {
+	if t.running {
+		t.logger.Logging(log.NewMsgNoContent("gophertunnel is already running"))
+		return
+	}
+
 	t.running = true
 	p, err := minecraft.NewForeignStatusProvider(addr.Connection.RemoteAddress)
 
