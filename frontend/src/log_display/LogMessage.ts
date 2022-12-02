@@ -41,19 +41,6 @@ export class LogMessage {
             key: "log" + id,
             id: "log" + id,
             className: "log-title",
-            onClick: (ev: SyntheticEvent) => {
-                // @ts-ignore
-                const id: string|null = ev.target.id;
-                if(id === null) return;
-                const log_content = document.getElementById(id + "-content");
-                if(log_content === null) return;
-                if(log_content.style.display === "none" || log_content.style.display === ""){
-                    log_content.style.display = "block";
-
-                }else{
-                    log_content.style.display = "none";
-                }
-            },
             children: [this.prefix + this.getTitle()]
         });
 
@@ -66,11 +53,32 @@ export class LogMessage {
             children: [React.createElement(SyntaxHighlight, {language: "js", children: [this.getContent()]})]
         });
 
-        Prism.highlightAll();
         return React.createElement('div', {
-            key: "logs" + id,
+            key: "log" + id + "ls",
+            id: "log" + id + "ls",
             className: "logs",
-            children: [title, content]
+            children: [title, content],
+            onClick: (ev: SyntheticEvent) => {
+                // @ts-ignore
+                const id: string|null = ev.target.id;
+                if(id === null) return;
+                const logs = document.getElementById(id + "ls"); //Los
+                const log_title = document.getElementById(id); //title
+                const log_content = document.getElementById(id + "-content"); //log-content
+                if(logs === null || log_title === null || log_content === null) return;
+                if(log_content.style.display === "none" || log_content.style.display === ""){
+                    logs.style.backgroundColor = "#1c1c1c";
+                    log_title.style.paddingTop= "5px";
+                    log_title.style.paddingBottom = "10px";
+                    log_content.style.display = "block";
+
+                }else{
+                    logs.style.backgroundColor = "#222";
+                    log_title.style.paddingTop= "0px";
+                    log_title.style.paddingBottom = "0px";
+                    log_content.style.display = "none";
+                }
+            },
         });
     }
 

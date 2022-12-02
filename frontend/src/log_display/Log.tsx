@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {DetailedReactHTMLElement, useEffect, useRef, useState} from "react";
 import {GetLatestId, KillGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
 import {createRoot} from "react-dom/client";
@@ -11,11 +11,13 @@ import {DebugAtom} from "./recoil/atom/DebugAtom";
 import {SyntaxHighlight} from "./SyntaxHightLight";
 
 export function Log () {
+    const auto_scroll = useRecoilValue(AutoScrollAtom);
+    const default_displayed_log: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
+    const [displayed_log, setDisplayedLog] = useState(default_displayed_log);
     const default_log: LogMessage[] = [];
     const log= useRef(default_log);
-    const auto_scroll = useRecoilValue(AutoScrollAtom);
     const ids = useRef(0);
-    const intervalId  = useRef(setInterval( () => checkUpdate(), 500));
+    const intervalId  = useRef(setInterval( () => checkUpdate(), 500)); //exec once
 
     async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
@@ -45,27 +47,28 @@ export function Log () {
     function createLogContents(logs: LogMessage[]) {
         let log_elements: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
         logs.forEach((log) => log_elements.push(log.toElement()));
-
-        const log_container = document.getElementById('log-container');
-
-        if(log_container === null) return;
-        const root = createRoot(log_container);
-        root.render(React.createElement('div', {
-            children: log_elements
-        }));
+        setDisplayedLog(log_elements);
     }
 
     useEffect(() => {
+        Prism.highlightAll();
+
         if(auto_scroll){
             Scroll("log-container");
         }
-    }, []);
+    }, [displayed_log]);
 
     return  (
         <div id="Log">
-            <div className="log-container" id="log-container"/>
+            <div className="log-container" id="log-container"> {displayed_log} </div>
+
             <button className="btn" onClick={() => {
-                log.current.push(new LogMessage(100000, "testlog", "ahoaho"));
+                log.current.push(new LogMessage(Math.random()*10000, "testlog", "import {atom} from \"recoil\";\n" +
+                    "\n" +
+                    "export const LocalAddressAtom = atom({\n" +
+                    "    key: \"local_address\",\n" +
+                    "    default: \"\"\n" +
+                    "});"));
                 createLogContents(log.current)
             }}>AddLog</button>
         </div>
