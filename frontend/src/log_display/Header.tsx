@@ -9,6 +9,9 @@ export function Header() {
                     <div className="header2"/>
                     <div className="header3"/>
                     <div className="header4"/>
+                    <div className="header-decoration1"/>
+                    <div className="header-decoration2"/>
+                    <div className="header-decoration3"/>
                 </div>
             </div>
         </div>
