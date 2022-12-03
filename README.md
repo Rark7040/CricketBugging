@@ -29,7 +29,7 @@
 <br>
 
 ## ・Build
-> **Warning**
+> **Warning** <br>
 > [Wails](https://wails.io/ja/) のインストールが必要です
 
 ### Windows
