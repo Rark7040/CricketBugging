@@ -3,6 +3,7 @@ package main
 import (
 	"cricketbugging/gophertunnel"
 	"cricketbugging/log"
+	"fmt"
 )
 
 // WailsBinds if you'll bind functions to in frontend,
@@ -49,10 +50,15 @@ func (b WailsBinds) GetContent(id int) string {
 	return b.tunnel.Logger().Content(id)
 }
 
-func (b WailsBinds) Debug() {
-	b.tunnel.Logger().Debug()
+func (b WailsBinds) SaveAddress() {
+	_ = b.tunnel.Address().Save()
 }
 
-func (b WailsBinds) AddLog() {
-	b.tunnel.Logger().Logging(log.NewMsg("ahoaho", "hoseeeeee!"))
+func (b WailsBinds) LoadAddress() string {
+	strAddr, err := b.tunnel.Address().Load()
+
+	if err != nil {
+		return fmt.Sprintf("{%q: %q, %q: %q}", "LocalAddress", "0.0.0.0:19132", "RemoteAddress", "0.0.0.0:19132")
+	}
+	return strAddr
 }

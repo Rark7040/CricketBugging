@@ -18,6 +18,7 @@ export function Info(){
     function toggleAutoScrollInfo(isEnable: boolean) {
         if(isEnable){
             setAutoScrollInfo("auto scroll: 有効");
+
         }else{
             setAutoScrollInfo("auto scroll: 無効");
         }

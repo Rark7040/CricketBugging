@@ -7,9 +7,13 @@ import {RemoteAddressAtom} from "./recoil/atom/RemoteAddressAtom";
 import "./css/ButtonControls.css";
 
 export function ButtonControls() {
-    const [localAddr] = useRecoilState(LocalAddressAtom);
-    const [remoteAddr] = useRecoilState(RemoteAddressAtom);
+    const [local_addr] = useRecoilState(LocalAddressAtom);
+    const [remote_addr] = useRecoilState(RemoteAddressAtom);
     const [auto_scroll, setAutoScroll] = useRecoilState(AutoScrollAtom);
+
+    function run(){
+        RunGopherTunnel(local_addr, remote_addr);
+    }
 
     function updateAutoScroll(){
         const toggle_scroll_btn = document.getElementById("auto-scroll-btn");
@@ -27,7 +31,7 @@ export function ButtonControls() {
         <div id="ButtonControls">
             <div className="button-controls">
                 <ul className="buttons-list">
-                    <li><button className="control-btn-start" onClick={() => RunGopherTunnel(localAddr, remoteAddr)}>Start</button></li>
+                    <li><button className="control-btn-start" onClick={() => run()}>Start</button></li>
                     <li><button className="control-btn-kill" onClick={() => KillGopherTunnel()}>Kill</button></li>
                     <li><button className="control-btn-scroll" onClick={() => Scroll("log-container")}>Scroll</button></li>
                     <li><button className="control-btn-toggle-scroll" id="auto-scroll-btn" onClick={() => updateAutoScroll()}>ToggleAutoScroll</button></li>

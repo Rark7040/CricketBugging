@@ -15,12 +15,14 @@ import (
 type GopherTunnel struct {
 	running bool
 	logger  *log.Logger
+	addr    AddressInfo
 }
 
 func NewTunnel() *GopherTunnel {
 	return &GopherTunnel{
 		running: false,
 		logger:  log.NewLogger(),
+		addr:    NewAddr("0.0.0.0:19132", "0.0.0.0:19132"),
 	}
 }
 
@@ -34,6 +36,10 @@ func (t *GopherTunnel) Kill() {
 
 func (t *GopherTunnel) Logger() *log.Logger {
 	return t.logger
+}
+
+func (t GopherTunnel) Address() AddressInfo {
+	return t.addr
 }
 
 func (t *GopherTunnel) Listen(pk packet.Packet) {
@@ -62,28 +68,29 @@ func (t *GopherTunnel) structName(stct interface{}) string {
 }
 
 func (t *GopherTunnel) Run(addr AddressInfo) {
+	t.addr = addr
 	if t.running {
 		t.logger.Logging(log.NewMsgNoContent("gophertunnel is already running"))
 		return
 	}
-
-	t.running = true
-	p, err := minecraft.NewForeignStatusProvider(addr.Connection.RemoteAddress)
+	p, err := minecraft.NewForeignStatusProvider(t.addr.RemoteAddress)
 
 	if err != nil {
-		fmt.Println(spew.Sdump(addr))
-		fmt.Println(err.Error())
-		panic(err)
+		t.logger.Logging(log.NewMsgNoContent(fmt.Sprintf("lookup %s no such host", addr.RemoteAddress)))
+		t.logger.Logging(log.NewMsgNoContent("stopping gophertunnel..."))
+		return
 	}
 	tsrc := genToken(t.Logger())
 	listener, err := minecraft.ListenConfig{
 		StatusProvider: p,
-	}.Listen("raknet", addr.Connection.LocalAddress)
+	}.Listen("raknet", t.addr.LocalAddress)
 
 	if err != nil {
 		panic(err)
 	}
+	t.running = true
 	t.logger.Logging(log.NewMsgNoContent("done!"))
+	_ = t.addr.Save()
 
 	go func() {
 		defer func() {
@@ -106,15 +113,15 @@ func (t *GopherTunnel) Run(addr AddressInfo) {
 		if err != nil {
 			panic(err)
 		}
-		go t.handleConn(c.(*minecraft.Conn), listener, addr, tsrc)
+		go t.handleConn(c.(*minecraft.Conn), listener, tsrc)
 	}
 }
 
-func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.Listener, addr AddressInfo, tsrc oauth2.TokenSource) {
+func (t *GopherTunnel) handleConn(conn *minecraft.Conn, listener *minecraft.Listener, tsrc oauth2.TokenSource) {
 	serverConn, err := minecraft.Dialer{
 		TokenSource: tsrc,
 		ClientData:  conn.ClientData(),
-	}.Dial("raknet", addr.Connection.RemoteAddress)
+	}.Dial("raknet", t.addr.RemoteAddress)
 
 	if err != nil {
 		panic(err)
