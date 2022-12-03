@@ -6,7 +6,7 @@ import {RemoteAddressAtom} from "./log_display/recoil/atom/RemoteAddressAtom";
 
 const init = ({ set }: MutableSnapshot) => {
     set(LocalAddressAtom, "0.0.0.0:19132");
-    set(RemoteAddressAtom, "s.mclife.pro:51091");
+    set(RemoteAddressAtom, "0.0.0.0:19132");
 };
 
 function App() {

@@ -14,7 +14,6 @@ export class LogMessage {
         this.title = title;
         this.content = content;
         this.prefix = LogMessage.getPrefix();
-
     }
 
     public getId(): number {
@@ -34,25 +33,31 @@ export class LogMessage {
         return "[" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "]: ";
     }
 
-    public toElement(): React.DetailedReactHTMLElement<{ children: any[]; key: string }, HTMLElement> {
-        const id = this.getId();
-        const title = React.createElement('div', {
-            key: "log" + id,
-            id: "log" + id,
+    private createTitleElement(log_id: number) {
+        return React.createElement('div', {
+            key: "log" + log_id,
+            id: "log" + log_id,
             className: "log-title",
             children: [this.prefix + this.getTitle()]
         });
+    }
 
+    private createContentElement(log_id: number) {
         const content_class = this.getContent() === ""? "log-content-empty": "log-content";
-        const content_id = this.getContent() === ""? "log" + id + "-content-empty": "log" + id + "-content";
+        const content_id = this.getContent() === ""? "log" + log_id + "-content-empty": "log" + log_id + "-content";
         const content_children = this.getContent() === ""? []: [React.createElement(SyntaxHighlight, {language: "js", children: [this.getContent()]})];
-        const content = React.createElement('div', {
-            key: "log" + id + "-content",
+        return React.createElement('div', {
+            key: "log" + log_id + "-content",
             id: content_id,
             className: content_class,
             children: content_children
         });
+    }
 
+    public toElement(): React.DetailedReactHTMLElement<{ children: any[]; key: string }, HTMLElement> {
+        const id = this.getId();
+        const title = this.createTitleElement(id);
+        const content =this.createContentElement(id);
         return React.createElement('div', {
             key: "log" + id + "ls",
             id: "log" + id + "ls",

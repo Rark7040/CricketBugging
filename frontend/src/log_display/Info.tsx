@@ -15,7 +15,6 @@ export function Info(){
     const [remote_addr_info, setRemoteAddrInfo] = useState("remote address: ---");
     const [remote_addr] = useRecoilState(RemoteAddressAtom);
 
-
     function toggleAutoScrollInfo(isEnable: boolean) {
         if(isEnable){
             setAutoScrollInfo("auto scroll: 有効");
@@ -41,7 +40,6 @@ export function Info(){
             setRemoteAddrInfo("remote address: ---");
         }
     }
-
 
     useEffect(() => {
         updateLocalAddrInfo(is_running);

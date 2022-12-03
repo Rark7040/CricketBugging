@@ -1,14 +1,11 @@
-import React, {DetailedReactHTMLElement, useEffect, useRef, useState} from "react";
-import {GetLatestId, IsRunningGopherTunnel, KillGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
+import React, { useEffect, useRef, useState} from "react";
+import {GetLatestId, IsRunningGopherTunnel, NeedsUpdate} from "../../wailsjs/go/main/WailsBinds";
 import {LogMessage} from "./LogMessage";
-import {createRoot} from "react-dom/client";
 import Prism from "prismjs";
 import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {Scroll} from "./function/Scroll";
 import "./css/Log.css";
-import {DebugAtom} from "./recoil/atom/DebugAtom";
-import {SyntaxHighlight} from "./SyntaxHightLight";
 import {RunningAtom} from "./recoil/atom/RunnigAtom";
 
 export function Log () {
@@ -19,7 +16,7 @@ export function Log () {
     const default_log: LogMessage[] = [];
     const log= useRef(default_log);
     const ids = useRef(0);
-    const intervalId  = useRef(setInterval( () => checkUpdate(), 500)); //exec once
+    const intervalId  = useRef(setInterval( () => checkUpdate(), 100)); //exec once
 
     async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
