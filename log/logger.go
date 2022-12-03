@@ -1,6 +1,9 @@
 package log
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 type Logger struct {
 	ids      int
@@ -14,8 +17,12 @@ func NewLogger() *Logger {
 	}
 }
 
-func (l *Logger) NeedsUpdate(p int) bool {
+func (l Logger) NeedsUpdate(p int) bool {
 	return p < l.ids
+}
+
+func (l Logger) Ids() int {
+	return l.ids
 }
 
 func (l *Logger) Logging(m Message) {
@@ -23,18 +30,18 @@ func (l *Logger) Logging(m Message) {
 	l.ids += 1
 }
 
-func (l *Logger) Title(id int) string {
+func (l Logger) Title(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.title
 	}
-	return ""
+	return "null"
 }
 
-func (l *Logger) Content(id int) string {
+func (l Logger) Content(id int) string {
 	if m, ok := l.messages[id]; ok {
 		return m.content
 	}
-	return ""
+	return "null"
 }
 
 func (l *Logger) Clear() {
@@ -46,6 +53,7 @@ func (l *Logger) GetAll() *map[int]Message {
 	return &l.messages
 }
 
-func (l *Logger) Debug() {
-	fmt.Println(l.messages)
+func (l Logger) Debug() {
+	fmt.Println(strconv.Itoa(len(l.messages)) + "件のgo側在庫")
+	fmt.Println(strconv.Itoa(l.Ids()) + "ids")
 }
