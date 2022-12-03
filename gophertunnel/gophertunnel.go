@@ -8,6 +8,7 @@ import (
 	"github.com/sandertv/gophertunnel/minecraft"
 	"github.com/sandertv/gophertunnel/minecraft/protocol/packet"
 	"golang.org/x/oauth2"
+	"reflect"
 	"sync"
 )
 
@@ -36,14 +37,27 @@ func (t *GopherTunnel) Logger() *log.Logger {
 }
 
 func (t *GopherTunnel) Listen(pk packet.Packet) {
-	switch p := pk.(type) {
-	case *packet.AddItemActor:
+	lg := func(p packet.Packet) {
 		t.Logger().Logging(
 			log.NewMsg(
-				"AddItemActor",
+				t.structName(p),
 				spew.Sdump(p),
 			),
 		)
+	}
+
+	switch p := pk.(type) {
+	case *packet.Text:
+		lg(p)
+	}
+}
+
+func (t *GopherTunnel) structName(stct interface{}) string {
+	if ref := reflect.TypeOf(stct); ref.Kind() == reflect.Ptr {
+		return ref.Elem().Name()
+
+	} else {
+		return ref.Name()
 	}
 }
 
