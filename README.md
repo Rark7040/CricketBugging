@@ -14,17 +14,12 @@
 
    
 <div>
-<img src="assets/image.png" width="500px" border-radius="6px">
+<img src="assets/image.png" width="800px">
 </div>
 
 > **Warning**
 > 現在調整中なのでTextPacketにしか対応していません
 </div>
-
-<br>
-<br>
-<br>
-
 
 
 <br>
