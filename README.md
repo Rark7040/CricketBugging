@@ -14,7 +14,7 @@
 
    
 <div>
-<img src="assets/image.png" width="300px">
+<img src="assets/image.png" width="500px">
 </div>
 
 > **Warning**
