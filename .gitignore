@@ -1,5 +1,7 @@
 build/bin
 node_modules
+token.tok
+addr.json
 frontend/dist
 .idea/**/workspace.xml
 .idea/**/tasks.xml

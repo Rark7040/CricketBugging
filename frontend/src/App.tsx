@@ -1,28 +1,29 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
-import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import './css/App.css';
+import {LogDisplay} from "./log_display/LogDisplay";
+import {MutableSnapshot, RecoilRoot} from "recoil";
+import {LocalAddressAtom} from "./log_display/recoil/atom/LocalAddressAtom";
+import {RemoteAddressAtom} from "./log_display/recoil/atom/RemoteAddressAtom";
+import {LoadAddress} from "../wailsjs/go/main/WailsBinds";
+import React, {useState} from "react";
 
-function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+export default function App() {
+    const [updateKey, setUpdateKey] = useState(0);
 
-    function greet() {
-        Greet(name).then(updateResultText);
+    function init({set}: MutableSnapshot) {
+        LoadAddress().then((addr_json) => {
+            const addr = JSON.parse(addr_json);
+
+            set(LocalAddressAtom, addr.LocalAddress);
+            set(RemoteAddressAtom, addr.RemoteAddress);
+            setUpdateKey(updateKey + 1);
+        });
     }
 
     return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
+        <RecoilRoot initializeState={init}>
+            <div id="App">
+                <LogDisplay/>
             </div>
-        </div>
-    )
+        </RecoilRoot>
+    );
 }
-
-export default App

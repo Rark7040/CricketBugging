@@ -1,0 +1,17 @@
+.logs {
+    border-radius: 3px;
+}
+
+.logs:hover {
+    border: 2px solid #9870e5;
+}
+
+.log-content {
+    display: none;/*はじめは非表示*/
+    margin-top: 0;
+}
+
+.log-title:hover {
+    background-color: #333;
+    border-radius: 2px;
+}
