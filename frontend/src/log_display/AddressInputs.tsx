@@ -28,8 +28,12 @@ export function AddressesInputs() {
     return (
         <div id="AddressesInputs">
             <div id="input" className="address-inputs-box">
-                <div id="running-status" className="running-status"/>
+                <div id="running-status-container" className="running-status-container">
+                   <div id="running-status" className="running-status"/>
+                </div>
+                <div className="address-label">LocalAddress</div>
                 <input id="local" className="input" onChange={updateLocal} autoComplete="off" name="input" value={local} type="text"/>
+                <div className="address-label">RemoteAddress</div>
                 <input id="remote" className="input" onChange={updateRemote} autoComplete="off" name="input" value={remote} type="text"/>
             </div>
         </div>
