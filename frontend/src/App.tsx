@@ -5,11 +5,11 @@ import {LocalAddressAtom} from "./log_display/recoil/atom/LocalAddressAtom";
 import {RemoteAddressAtom} from "./log_display/recoil/atom/RemoteAddressAtom";
 import {LoadAddress} from "../wailsjs/go/main/WailsBinds";
 import React, {useState} from "react";
-import {Props} from "./Props";
+import {PageProps} from "./Props";
 import {PagesEnum} from "./PagesEnum";
 import {UndefinedPageError} from "./UndefinedPageError";
 
-export default function App(props: Props) {
+export default function App(props: PageProps) {
     const [updateKey, setUpdateKey] = useState(0);
 
     function initState({set}: MutableSnapshot) {
@@ -22,8 +22,8 @@ export default function App(props: Props) {
         });
     }
 
-    function getPage(props: Props): JSX.Element {
-        switch (props.page) {
+    function getPage(page: string): JSX.Element {
+        switch (page) {
             case PagesEnum.LOG_DISPLAY:
                 return <LogDisplay page={PagesEnum.LOG_DISPLAY}/>;
 
@@ -31,14 +31,14 @@ export default function App(props: Props) {
                 return <LogDisplay page={PagesEnum.SETTING}/>;
 
             default:
-                throw new UndefinedPageError(props.page);
+                throw new UndefinedPageError(page);
         }
     }
 
     return (
         <RecoilRoot initializeState={initState}>
             <div id="App">
-                {getPage(props)}
+                {getPage(props.page)}
             </div>
         </RecoilRoot>
     );
