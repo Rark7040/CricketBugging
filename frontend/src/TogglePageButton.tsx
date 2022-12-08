@@ -1,6 +1,7 @@
 import {createRoot} from "react-dom/client";
 import App from "./App";
 import {TogglePageProps} from "./Props";
+import "./css/TogglePageButton.css";
 
 export function TogglePageButton(props: TogglePageProps) {
     function togglePage(page: string){

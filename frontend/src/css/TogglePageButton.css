@@ -1,0 +1,21 @@
+.toggle-page-btn{
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0);
+    color: #cecece;
+    border-radius: 2px;
+    padding: 6px;
+    font-weight: 400;
+    text-transform: uppercase;
+    border: 1px solid #b7b7b7;
+    box-shadow: 0 .125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.toggle-page-btn:hover {
+    filter: brightness(150%);
+    transition: padding 0.13s, background-color 0.5s ease-out;
+    padding: 4px;
+    background-color: rgb(122, 122, 122);
+    background-size: 80%;
+
+}
+

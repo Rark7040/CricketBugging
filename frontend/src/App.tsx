@@ -8,6 +8,7 @@ import React, {useState} from "react";
 import {PageProps} from "./Props";
 import {PagesEnum} from "./PagesEnum";
 import {UndefinedPageError} from "./UndefinedPageError";
+import {Setting} from "./setting/Setting";
 
 export default function App(props: PageProps) {
     const [updateKey, setUpdateKey] = useState(0);
@@ -28,7 +29,7 @@ export default function App(props: PageProps) {
                 return <LogDisplay page={PagesEnum.LOG_DISPLAY}/>;
 
             case PagesEnum.SETTING:
-                return <LogDisplay page={PagesEnum.SETTING}/>;
+                return <Setting page={PagesEnum.SETTING}/>;
 
             default:
                 throw new UndefinedPageError(page);

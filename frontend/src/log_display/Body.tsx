@@ -13,13 +13,13 @@ export function Body() {
                 <div className="info">
                     <AddressesInputs/>
                     <Info/>
+                    <TogglePageButton page={PagesEnum.SETTING} btn_txt="Setting"/>
                 </div>
                 <div className="controls">
                     <Log/>
                     <ButtonControls/>
                 </div>
             </div>
-            <TogglePageButton page={PagesEnum.SETTING} btn_txt="Setting"/>
         </div>
     );
 }
