@@ -26,10 +26,10 @@ export default function App(props: PageProps) {
     function getPage(page: string): JSX.Element {
         switch (page) {
             case PagesEnum.LOG_DISPLAY:
-                return <LogDisplay page={PagesEnum.LOG_DISPLAY}/>;
+                return <LogDisplay />;
 
             case PagesEnum.SETTING:
-                return <Setting page={PagesEnum.SETTING}/>;
+                return <Setting />;
 
             default:
                 throw new UndefinedPageError(page);

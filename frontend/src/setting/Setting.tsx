@@ -1,8 +1,7 @@
-import {PageProps} from "../Props";
 import {PagesEnum} from "../PagesEnum";
 import {TogglePageButton} from "../TogglePageButton";
 
-export function Setting(props: PageProps) {
+export function Setting() {
     return (
         <div id="Setting">
             hoge
