@@ -1,8 +1,8 @@
 import {Header} from "./Header";
 import {Body} from "./Body";
-import {Props} from "../Props";
+import {PageProps} from "../Props";
 
-export function LogDisplay(props: Props) {
+export function LogDisplay(props: PageProps) {
     return (
         <div id="LogDisplay">
             <Header/>
