@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vanilla-extract/css": "*",
     "recoil": "0.7.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "prismjs": "^1.29.0"
   },
   "devDependencies": {
+    "@vanilla-extract/css": "*",
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
