@@ -7,7 +7,8 @@
     font-weight: 400;
     text-transform: uppercase;
     border: 1px solid #b7b7b7;
-    box-shadow: 0 .125rem 0.25rem rgba(0, 0, 0, 0.075);
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .toggle-page-btn:hover {
@@ -15,7 +16,5 @@
     transition: padding 0.13s, background-color 0.5s ease-out;
     padding: 4px;
     background-color: rgb(122, 122, 122);
-    background-size: 80%;
-
 }
 
