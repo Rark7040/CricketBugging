@@ -58,12 +58,12 @@ export const toggle_button_style = style({
     borderStyle: vars.border.style,
     borderWidth: vars.border.width,
     borderColor: vars.border.color,
-    boxShadow: vars.shadow.offset.x + " " + vars.shadow.offset.y + " " + vars.shadow.radius + " " + vars.shadow.color,
+    boxShadow: [vars.shadow.offset.x, vars.shadow.offset.y, vars.shadow.radius , vars.shadow.color],
 
     ':hover': {
         backgroundColor: vars.hovered.color.bg,
         filter: vars.hovered.color.filter,
         padding: vars.hovered.space.padding,
-        transition: vars.transition.padding + " " + vars.transition.bg
+        transition: [vars.transition.padding, vars.transition.bg]
     }
 });
