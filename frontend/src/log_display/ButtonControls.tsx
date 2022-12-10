@@ -1,4 +1,4 @@
-import {Scroll} from "./function/Scroll";
+import {Scroll} from "./Scroll";
 import {KillGopherTunnel, RunGopherTunnel} from "../../wailsjs/go/main/WailsBinds";
 import {useRecoilState} from "recoil";
 import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";

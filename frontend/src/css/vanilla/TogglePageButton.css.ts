@@ -1,7 +1,7 @@
-import {createTheme, style} from "@vanilla-extract/css";
+import {createTheme, createVar, fallbackVar, style} from "@vanilla-extract/css";
 
 
-export const [toggle_button_theme, vars] = createTheme({
+const props = {
     txt: {
         color: "#cecece",
         weight: "400",
@@ -18,8 +18,8 @@ export const [toggle_button_theme, vars] = createTheme({
     },
     hovered: {
         color: {
-            bg: "#7a7a7a",
-            filter: "brightness(150%)"
+            bg: "#5d5c5c",
+            filter: "brightness(140%)" //文字が背景につぶれないように
         },
         space: {
             padding: "4px",
@@ -33,17 +33,18 @@ export const [toggle_button_theme, vars] = createTheme({
     },
     shadow: {
         offset: {
-            x: "0",
+            x: "2px",
             y: ".125rem"
         },
         radius: "0.25rem",
         color: "rgba(0, 0, 0, 0.075)"
     },
     transition: {
-        padding: "padding 0.13s",
-        bg: "background-color 0.5s ease-out"
+        bg: "background-color 0.3s ease-out"
     }
-});
+};
+
+export const [toggle_button_theme, vars] = createTheme(props);
 
 export const toggle_button_style = style({
     color: vars.txt.color,
@@ -58,12 +59,12 @@ export const toggle_button_style = style({
     borderStyle: vars.border.style,
     borderWidth: vars.border.width,
     borderColor: vars.border.color,
-    boxShadow: [vars.shadow.offset.x, vars.shadow.offset.y, vars.shadow.radius , vars.shadow.color],
+    boxShadow: [props.shadow.offset.x, props.shadow.offset.y, props.shadow.radius , props.shadow.color].join(' '),
 
     ':hover': {
         backgroundColor: vars.hovered.color.bg,
         filter: vars.hovered.color.filter,
         padding: vars.hovered.space.padding,
-        transition: [vars.transition.padding, vars.transition.bg]
+        transition: vars.transition.bg
     }
 });

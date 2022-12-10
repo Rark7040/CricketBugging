@@ -4,7 +4,7 @@ import {LogMessage} from "./LogMessage";
 import Prism from "prismjs";
 import {AutoScrollAtom} from "./recoil/atom/AutoScrollAtom";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {Scroll} from "./function/Scroll";
+import {Scroll} from "./Scroll";
 import "./css/Log.css";
 import {RunningAtom} from "./recoil/atom/RunnigAtom";
 
