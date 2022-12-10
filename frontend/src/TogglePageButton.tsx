@@ -2,7 +2,6 @@ import {createRoot} from "react-dom/client";
 import App from "./App";
 import {TogglePageProps} from "./Props";
 import {toggle_button_style, toggle_button_theme} from "./css/vanilla/TogglePageButton.css";
-//import "./css/TogglePageButton.css";
 
 export function TogglePageButton(props: TogglePageProps) {
     function togglePage(page: string){
@@ -12,8 +11,8 @@ export function TogglePageButton(props: TogglePageProps) {
     }
 
     return (
-        <section className={toggle_button_theme}>
+        <div className={toggle_button_theme}>
             <button className={toggle_button_style} onClick={() => togglePage(props.page)}>{props.btn_txt}</button>
-        </section>
+        </div>
     );
 }
