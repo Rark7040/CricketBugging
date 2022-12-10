@@ -1,4 +1,4 @@
-import {createTheme, createVar, fallbackVar, style} from "@vanilla-extract/css";
+import {createTheme, style} from "@vanilla-extract/css";
 
 
 const props = {
