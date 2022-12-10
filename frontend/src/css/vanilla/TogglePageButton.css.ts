@@ -45,7 +45,6 @@ const props = {
 };
 
 export const [toggle_button_theme, vars] = createTheme(props);
-
 export const toggle_button_style = style({
     color: vars.txt.color,
     fontWeight: vars.txt.weight,
