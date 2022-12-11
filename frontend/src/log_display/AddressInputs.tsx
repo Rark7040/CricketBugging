@@ -1,9 +1,14 @@
 import {useRecoilState} from "recoil";
 import {LocalAddressAtom} from "./recoil/atom/LocalAddressAtom";
 import {RemoteAddressAtom} from "./recoil/atom/RemoteAddressAtom";
-import "./css/AddressInputs.css";
 import {RunningAtom} from "./recoil/atom/RunnigAtom";
-import React, {useEffect} from "react";
+import React from "react";
+import {
+    AddressInputsBoxStyle, AddressInputStyle,
+    AddressLabelStyle,
+    RunningStatusStyle,
+    RunningStatusWrapperStyle
+} from "./css/macaron/AddressInputsStyle";
 
 export function AddressesInputs() {
     const [local, setLocal] = useRecoilState(LocalAddressAtom);
@@ -12,28 +17,19 @@ export function AddressesInputs() {
     const updateLocal = (event: React.ChangeEvent<HTMLInputElement>) => setLocal(event.target.value);
     const updateRemote = (event: React.ChangeEvent<HTMLInputElement>) => setRemote(event.target.value);
 
-    useEffect(() => {
-        const running_status = document.getElementById("running-status");
-        if(running_status === null) return;
-        if(is_running){
-            running_status.style.backgroundColor = "#6cff56";
-
-        }else{
-            running_status.style.backgroundColor = "#ff3c3c";
-        }
-    }, [is_running]);
-
     return (
         <div id="AddressesInputs">
-            <div id="input" className="address-inputs-box">
-                <div id="running-status-container" className="running-status-container">
-                   <div id="running-status" className="running-status"/>
-                </div>
-                <div className="address-label">LocalAddress</div>
-                <input id="local" className="input" onChange={updateLocal} autoComplete="off" name="input" value={local} type="text"/>
-                <div className="address-label">RemoteAddress</div>
-                <input id="remote" className="input" onChange={updateRemote} autoComplete="off" name="input" value={remote} type="text"/>
-            </div>
+            <AddressInputsBoxStyle id="input" className="address-inputs-box">
+                <RunningStatusWrapperStyle>
+                    <RunningStatusStyle id="running-status" color={is_running? 'running': 'stopped'} />
+                </RunningStatusWrapperStyle>
+
+                <AddressLabelStyle className="address-label"> LocalAddress </AddressLabelStyle>
+                <AddressInputStyle id="local" onChange={updateLocal} autoComplete="off" name="input" value={local} type="text"/>
+
+                <AddressLabelStyle className="address-label">RemoteAddress</AddressLabelStyle>
+                <AddressInputStyle id="remote" onChange={updateRemote} autoComplete="off" name="input" value={remote} type="text"/>
+            </AddressInputsBoxStyle>
         </div>
     );
 }
