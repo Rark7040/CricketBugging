@@ -1,18 +1,16 @@
-import {SyntheticEvent, useEffect} from "react";
 import {useRecoilState} from "recoil";
 import {LocalAddressAtom} from "./recoil/atom/LocalAddressAtom";
 import {RemoteAddressAtom} from "./recoil/atom/RemoteAddressAtom";
 import "./css/AddressInputs.css";
 import {RunningAtom} from "./recoil/atom/RunnigAtom";
+import React, {useEffect} from "react";
 
 export function AddressesInputs() {
     const [local, setLocal] = useRecoilState(LocalAddressAtom);
     const [remote, setRemote] = useRecoilState(RemoteAddressAtom);
     const [is_running] = useRecoilState(RunningAtom);
-    // @ts-ignore
-    const updateLocal = (event: SyntheticEvent) => setLocal(event.target.value);
-    // @ts-ignore
-    const updateRemote = (event: SyntheticEvent) => setRemote(event.target.value);
+    const updateLocal = (event: React.ChangeEvent<HTMLInputElement>) => setLocal(event.target.value);
+    const updateRemote = (event: React.ChangeEvent<HTMLInputElement>) => setRemote(event.target.value);
 
     useEffect(() => {
         const running_status = document.getElementById("running-status");

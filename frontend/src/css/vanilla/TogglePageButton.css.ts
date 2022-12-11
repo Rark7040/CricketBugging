@@ -44,8 +44,8 @@ const props = {
     }
 };
 
-export const [toggle_button_theme, vars] = createTheme(props);
-export const toggle_button_style = style({
+const [toggle_page_button_theme, vars] = createTheme(props);
+const toggle_page_button_style = style({
     color: vars.txt.color,
     fontWeight: vars.txt.weight,
     textTransform: vars.txt.transform,
@@ -67,3 +67,8 @@ export const toggle_button_style = style({
         transition: vars.transition.bg
     }
 });
+
+export {
+    toggle_page_button_theme,
+    toggle_page_button_style
+};

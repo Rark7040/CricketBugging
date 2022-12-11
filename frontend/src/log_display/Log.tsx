@@ -10,13 +10,13 @@ import {RunningAtom} from "./recoil/atom/RunnigAtom";
 
 export function Log () {
     const auto_scroll = useRecoilValue(AutoScrollAtom);
-    const default_displayed_log: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
+    const default_displayed_log: React.DetailedReactHTMLElement<{ key: string; id: string; className: string; onClick: (ev: React.MouseEvent<HTMLInputElement, MouseEvent>) => void; }, HTMLElement>[] = [];
     const [displayed_log, setDisplayedLog] = useState(default_displayed_log);
     const [is_running, setRunning] = useRecoilState(RunningAtom);
     const default_log: LogMessage[] = [];
     const log= useRef(default_log);
     const ids = useRef(0);
-    const intervalId  = useRef(setInterval( () => checkUpdate(), 100)); //exec once
+    const wasRunningInterval = useRef(false);
 
     async function checkUpdate() {
         NeedsUpdate(ids.current).then((needsUpdate: boolean) => {
@@ -25,16 +25,14 @@ export function Log () {
             GetLatestId().then((latestId: number) => {
                 getLogsBetween(ids.current, latestId); //fix list index
             });
-        })
+        });
     }
 
     function getLogsBetween(startId: number, endId: number){
-        let promises: Promise<LogMessage>[] = [];
-        let cnt = 0;
+        const promises: Promise<LogMessage>[] = [];
 
         for (let id = startId; id < endId; ++id){
             promises.push(LogMessage.fromId(id));
-            ++cnt;
         }
         ids.current = endId; //sync to backend logger id
 
@@ -45,12 +43,17 @@ export function Log () {
     }
 
     function createLogContents(logs: LogMessage[]) {
-        let log_elements: React.DetailedReactHTMLElement<any, HTMLElement>[] = [];
+        const log_elements: React.DetailedReactHTMLElement<{ key: string; id: string; className: string; onClick: (ev: React.MouseEvent<HTMLInputElement, MouseEvent>) => void; }, HTMLElement>[] = [];
         logs.forEach((log) => log_elements.push(log.toElement()));
         setDisplayedLog(log_elements);
     }
 
     useEffect(() => {
+        if(!wasRunningInterval.current){
+            setInterval( () => checkUpdate(), 100);
+            wasRunningInterval.current = true;
+        }
+
         Prism.highlightAll();
 
         if(auto_scroll){

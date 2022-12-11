@@ -1,9 +1,10 @@
-import "../assets/prism/prism.css"
+import "../assets/prism/prism.css";
+import {SyntaxHighlightProps} from "../Props";
 
-export function SyntaxHighlight({children, language}: any) {
+export function SyntaxHighlight(props: SyntaxHighlightProps) {
     return (
         <pre>
-            <code className={`language-${language}`}>{children}</code>
+            <code className={`language-${props.lang}`}>{props.code}</code>
         </pre>
     );
 }
