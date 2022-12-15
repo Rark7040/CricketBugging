@@ -16,8 +16,8 @@ export const AddressInputsBoxStyle = styled('div', {
 
 export const RunningStatusStyle = styled('div', {
     base: {
-        height: "10px",
-        width: "15px",
+        height: 10,
+        width: 15,
         borderRadius: 30,
         margin: '1px -4px 4px',
     },
@@ -32,7 +32,7 @@ export const RunningStatusStyle = styled('div', {
         }
     },
     defaultVariants: {
-        color: 'stopped'
+        color: 'running'
     }
 });
 

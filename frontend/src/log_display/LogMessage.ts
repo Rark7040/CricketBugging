@@ -34,7 +34,7 @@ export class LogMessage {
     }
 
     private createTitleElement(log_id: number) {
-        return React.createElement('div', {
+        return React.createElement('LogTitleStyle', {
             key: "log" + log_id,
             id: "log" + log_id,
             className: "log-title",
@@ -45,7 +45,7 @@ export class LogMessage {
         const content_class = this.getContent() === ""? "log-content-empty": "log-content";
         const content_id = this.getContent() === ""? "log" + log_id + "-content-empty": "log" + log_id + "-content";
         const content_children = this.getContent() === ""? []: [React.createElement(SyntaxHighlight, {lang: "js", code: this.getContent()})];
-        return React.createElement('div', {
+        return React.createElement('LogContentStyle', {
             key: "log" + log_id + "-content",
             id: content_id,
             className: content_class,
@@ -57,12 +57,12 @@ export class LogMessage {
         const title = this.createTitleElement(id);
         const content = this.createContentElement(id);
         return React.createElement('div', {
-            key: "log" + id + "ls",
-            id: "log" + id + "ls",
+            key: "log" + id + "displayed",
+            id: "log" + id + "displayed",
             className: "logs",
             onClick: (ev: React.MouseEvent<HTMLInputElement>) => {
                 const id: string = (ev.target as HTMLInputElement).id;
-                const logs = document.getElementById(id + "ls"); //Los
+                const logs = document.getElementById(id + "displayed");
                 const log_title = document.getElementById(id); //title
                 const log_content = document.getElementById(id + "-content"); //log-content
                 if(logs === null || log_title === null || log_content === null) return;
